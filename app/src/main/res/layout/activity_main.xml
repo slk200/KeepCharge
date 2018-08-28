@@ -8,10 +8,10 @@
     <ImageView
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:src="@mipmap/logo"
-        android:scaleType="fitCenter"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="80dp"
-        android:layout_gravity="center_horizontal"/>
+        android:scaleType="fitCenter"
+        android:src="@mipmap/logo" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -46,6 +46,7 @@
                     android:src="@drawable/ic_account" />
 
                 <EditText
+                    android:id="@+id/et_account"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -73,6 +74,7 @@
                     android:src="@drawable/ic_lock" />
 
                 <EditText
+                    android:id="@+id/et_lock"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -88,6 +90,7 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/btn_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/ll_input"
@@ -100,6 +103,17 @@
             android:text="@string/login"
             android:textColor="@color/colorPrimary"
             android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/box_auto_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/ll_input"
+            android:layout_below="@id/btn_login"
+            android:layout_marginTop="30dp"
+            android:buttonTint="@color/colorWhite"
+            android:text="@string/auto_login"
+            android:textColor="@color/colorWhite" />
 
     </RelativeLayout>
 
