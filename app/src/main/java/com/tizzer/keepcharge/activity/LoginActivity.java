@@ -69,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (account.equals(ACCOUNT) && lock.equals(LOCK)) {
             startActivity(new Intent(this.getApplicationContext(), MainActivity.class));
+            finish();
         } else {
             ToastUtil.simpleToast(this, R.string.account_lock_error);
         }

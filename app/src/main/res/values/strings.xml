@@ -7,4 +7,7 @@
     <string name="account_null_tip">账号不能为空</string>
     <string name="lock_null_tip">密码不能为空</string>
     <string name="account_lock_error">账号或密码错误</string>
+    <string name="finance">资金</string>
+    <string name="personal">我的</string>
+    <string name="stores_of_wang">王老板的店铺</string>
 </resources>
