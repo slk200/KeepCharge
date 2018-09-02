@@ -11,7 +11,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="80dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/logo" />
+        android:src="@mipmap/ic_logo" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -100,6 +100,7 @@
             android:layout_marginEnd="40dp"
             android:layout_marginStart="40dp"
             android:background="@drawable/login_button_paint"
+            android:foreground="?android:attr/selectableItemBackground"
             android:text="@string/login"
             android:textColor="@color/colorPrimary"
             android:textSize="16sp" />

@@ -10,4 +10,13 @@
     <string name="finance">资金</string>
     <string name="personal">我的</string>
     <string name="stores_of_wang">王老板的店铺</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_store">添加店铺</string>
+    <string name="yesterday">昨日：</string>
+    <string name="income">收入：</string>
+    <string name="_0_00">0.00</string>
+    <string name="payment">支出：</string>
+    <string name="default_store">1号店</string>
 </resources>

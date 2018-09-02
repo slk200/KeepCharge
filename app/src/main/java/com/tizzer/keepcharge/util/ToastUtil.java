@@ -8,4 +8,8 @@ public class ToastUtil {
     public static void simpleToast(Context context, int message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
+
+    public static void simpleToast(Context context, CharSequence message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
 }
