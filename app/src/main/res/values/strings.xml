@@ -19,4 +19,8 @@
     <string name="_0_00">0.00</string>
     <string name="payment">支出：</string>
     <string name="default_store">1号店</string>
+    <string name="store_name">店铺名</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="please_input_store_name">请输入店铺名</string>
 </resources>
