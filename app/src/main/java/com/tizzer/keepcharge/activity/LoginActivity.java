@@ -3,7 +3,6 @@ package com.tizzer.keepcharge.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -24,6 +23,8 @@ public class LoginActivity extends AppCompatActivity {
     private static final String ACCOUNT = "123";
     private static final String LOCK = "123";
 
+    private boolean isAuto = false;
+
     @BindView(R.id.et_account)
     EditText mAccountET;
     @BindView(R.id.et_lock)
@@ -36,7 +37,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-
+        if (SPUtil.getBoolean(getApplicationContext(), ConstantsValue.AUTO_LOGIN)) {
+            skip();
+        }
     }
 
     @OnClick({R.id.btn_login, R.id.box_auto_login})
@@ -46,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
                 verify();
                 break;
             case R.id.box_auto_login:
-                setAuto();
+                isAuto = mAutoLoginBox.isSelected();
                 break;
         }
     }
@@ -68,18 +71,22 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if (account.equals(ACCOUNT) && lock.equals(LOCK)) {
-            startActivity(new Intent(this.getApplicationContext(), MainActivity.class));
-            finish();
+            setAuto();
+            skip();
         } else {
             ToastUtil.simpleToast(this, R.string.account_lock_error);
         }
+    }
+
+    private void skip() {
+        startActivity(new Intent(this.getApplicationContext(), MainActivity.class));
+        finish();
     }
 
     /**
      * 设置是否自动登录
      */
     private void setAuto() {
-        Log.e(TAG, "setAuto: " + mAutoLoginBox.isSelected());
-        SPUtil.putBoolean(this, ConstantsValue.auto_login, mAutoLoginBox.isSelected());
+        SPUtil.putBoolean(this, ConstantsValue.AUTO_LOGIN, mAutoLoginBox.isSelected());
     }
 }

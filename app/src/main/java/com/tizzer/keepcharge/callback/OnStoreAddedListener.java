@@ -1,7 +1,7 @@
 package com.tizzer.keepcharge.callback;
 
-import com.tizzer.keepcharge.bean.Store;
+import com.tizzer.keepcharge.bean.StoreBean;
 
 public interface OnStoreAddedListener {
-    void onStoreAdded(Store store);
+    void onStoreAdded(StoreBean storeBean);
 }

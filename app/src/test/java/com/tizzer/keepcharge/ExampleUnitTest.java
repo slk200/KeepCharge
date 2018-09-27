@@ -12,6 +12,8 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+        String s1 = "2018-09-24";
+        String s2 = "2018-09-24 23:33:02.655000";
+        System.out.println(s1.startsWith(s2));
     }
 }

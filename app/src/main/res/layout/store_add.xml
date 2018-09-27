@@ -16,8 +16,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:drawableTop="@drawable/ic_add"
         android:drawablePadding="10dp"
-        android:drawableTop="@mipmap/ic_add"
         android:text="@string/add_store"
         android:textStyle="bold" />
 

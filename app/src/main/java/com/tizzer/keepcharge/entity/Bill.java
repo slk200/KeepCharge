@@ -12,11 +12,17 @@ public class Bill {
     @DatabaseField(generatedId = true)
     private int id;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
+    private int sid;
+
+    @DatabaseField
     private double money;
 
-    @DatabaseField(dataType = DataType.DATE_TIME, canBeNull = false)
+    @DatabaseField(dataType = DataType.DATE)
     private Date date;
+
+    @DatabaseField
+    private Boolean type;
 
     @DatabaseField
     private String note;
@@ -27,6 +33,14 @@ public class Bill {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getSid() {
+        return sid;
+    }
+
+    public void setSid(int sid) {
+        this.sid = sid;
     }
 
     public double getMoney() {
@@ -43,6 +57,14 @@ public class Bill {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Boolean getType() {
+        return type;
+    }
+
+    public void setType(Boolean type) {
+        this.type = type;
     }
 
     public String getNote() {

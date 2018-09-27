@@ -1,45 +1,38 @@
 package com.tizzer.keepcharge.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.tizzer.keepcharge.R;
-import com.tizzer.keepcharge.bean.Store;
+import com.tizzer.keepcharge.bean.StoreBean;
 
 import java.util.List;
 
 public class StoreAdapter extends RecyclerView.Adapter {
-    private static final String TAG = "StoreAdapter";
-    private List<Store> stores;
-    private Context context;
-    private OnCardClickedListener onCardClickedListener;
+    private List<StoreBean> storeBeans;
+    private OnCardClickedListener listener;
 
-    public StoreAdapter(List<Store> stores) {
-        this.stores = stores;
+    public StoreAdapter(List<StoreBean> storeBeans) {
+        this.storeBeans = storeBeans;
     }
 
-    public void setOnCardClickedListener(OnCardClickedListener onCardClickedListener) {
-        this.onCardClickedListener = onCardClickedListener;
+    public void setListener(OnCardClickedListener listener) {
+        this.listener = listener;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (context == null) {
-            context = parent.getContext();
-        }
         View view;
         switch (viewType) {
             case 1:
-                view = LayoutInflater.from(context).inflate(R.layout.store_item, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.store_item, parent, false);
                 return new StoreViewHolder(view);
             case 0:
-                view = LayoutInflater.from(context).inflate(R.layout.store_add, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.store_add, parent, false);
                 return new AddViewHolder(view);
         }
         return null;
@@ -48,16 +41,16 @@ public class StoreAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == 1) {
-            final Store store = stores.get(position);
+            final StoreBean storeBean = storeBeans.get(position);
             StoreViewHolder storeViewHolder = (StoreViewHolder) holder;
-            storeViewHolder.mStoreName.setText(store.getName());
-            storeViewHolder.mIncome.setText(String.valueOf(store.getIncome()));
-            storeViewHolder.mPayment.setText(String.valueOf(store.getPayment()));
+            storeViewHolder.mStoreName.setText(storeBean.getName());
+            storeViewHolder.mIncome.setText(String.valueOf(storeBean.getIncome()));
+            storeViewHolder.mPayment.setText(String.valueOf(storeBean.getPayment()));
+            final int index = position;
             storeViewHolder.mStore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.e(TAG, "onStoreClick: " + store);
-                    onCardClickedListener.onStoreClick(store.getId());
+                    listener.onStoreClick(storeBean, index);
                 }
             });
         } else {
@@ -65,7 +58,7 @@ public class StoreAdapter extends RecyclerView.Adapter {
             addViewHolder.mAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onCardClickedListener.onAddClick();
+                    listener.onAddClick();
                 }
             });
         }
@@ -73,16 +66,16 @@ public class StoreAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return stores.size();
+        return storeBeans.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return stores.get(position).getType();
+        return storeBeans.get(position).getType();
     }
 
     public interface OnCardClickedListener {
-        void onStoreClick(int id);
+        void onStoreClick(StoreBean storeBean, int position);
 
         void onAddClick();
     }

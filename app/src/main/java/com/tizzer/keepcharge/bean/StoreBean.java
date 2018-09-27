@@ -1,8 +1,9 @@
 package com.tizzer.keepcharge.bean;
 
 import java.io.Serializable;
+import java.util.Objects;
 
-public class Store implements Serializable {
+public class StoreBean implements Serializable {
 
     private int id;
     private String name;
@@ -10,14 +11,14 @@ public class Store implements Serializable {
     private double payment;
     private int type;
 
-    public Store() {
+    public StoreBean() {
     }
 
-    public Store(int type) {
+    public StoreBean(int type) {
         this.type = type;
     }
 
-    public Store(int id, String name, double income, double payment, int type) {
+    public StoreBean(int id, String name, double income, double payment, int type) {
         this.id = id;
         this.name = name;
         this.income = income;
@@ -66,8 +67,26 @@ public class Store implements Serializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StoreBean storeBean = (StoreBean) o;
+        return id == storeBean.id &&
+                Double.compare(storeBean.income, income) == 0 &&
+                Double.compare(storeBean.payment, payment) == 0 &&
+                type == storeBean.type &&
+                Objects.equals(name, storeBean.name);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, name, income, payment, type);
+    }
+
+    @Override
     public String toString() {
-        return "Store{" +
+        return "StoreBean{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", income=" + income +

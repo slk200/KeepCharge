@@ -5,10 +5,14 @@
     <color name="colorAccent">#b776ca</color>
 
 
-    <!--custom color-->
+    <!-- TODO: Custom color -->
     <color name="colorAccentAlpha">#f1e9f4</color>
     <color name="colorHint">#818181</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorWhiteAlpha">#c8ffffff</color>
     <color name="colorGreen">#028102</color>
+    <color name="colorBorder">#747474</color>
+    <color name="colorFill">#e2e2e2</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorHoloRed">#ff4444</color>
 </resources>

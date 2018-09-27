@@ -10,8 +10,6 @@
     <string name="finance">资金</string>
     <string name="personal">我的</string>
     <string name="stores_of_wang">王老板的店铺</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_store">添加店铺</string>
     <string name="yesterday">昨日：</string>
@@ -23,4 +21,36 @@
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
     <string name="please_input_store_name">请输入店铺名</string>
+    <string name="repeat_store_name">店铺名重复了亲！</string>
+    <string name="app_error">程序出错了亲！</string>
+    <string name="store_name_can_not_be_null">店铺名不能为空哦亲！</string>
+    <string name="search_history_bills">搜索历史账单</string>
+    <string name="no_history_bills">没有历史纪录</string>
+    <string name="money">金额：</string>
+    <string name="type">类型：</string>
+    <string name="in">收入</string>
+    <string name="out">支出</string>
+    <string name="note">备注：</string>
+    <string name="record_bill">录入账单</string>
+    <string name="please_input_money">请输入金额哦亲！</string>
+    <string name="save_error">保存失败</string>
+    <string name="save_ok">保存成功</string>
+    <string name="bills_spec">账单详情</string>
+    <string name="bill_note">账单备注：</string>
+    <string name="create_time">创建时间：</string>
+    <string name="update_money">修改金额：</string>
+    <string name="one_key_update_bill_type">一键修改账单类型</string>
+    <string name="bills_check">账单查看</string>
+    <string name="money_can_bot_be_null">金额不能为空哦亲！</string>
+    <string name="update_error">修改失败！</string>
+    <string name="update_ok">修改成功！</string>
+    <string name="output">导出</string>
+    <string name="bills_output">账单导出</string>
+    <string name="choose_store">选择店铺：</string>
+    <string name="choose_year">选择年份：</string>
+    <string name="choose_month">选择月份：</string>
+    <string name="output_bill">导出账单</string>
+    <string name="need_write_permission">需要写入权限才可以使用该功能哦亲！</string>
+    <string name="output_to_folder_document_successful">导出到手机存储文件夹Document成功</string>
+    <string name="no_sd_card">手机没有插入存储卡哦亲！</string>
 </resources>
