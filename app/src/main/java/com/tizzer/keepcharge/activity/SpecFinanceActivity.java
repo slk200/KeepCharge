@@ -86,6 +86,7 @@ public class SpecFinanceActivity extends AppCompatActivity implements BillAdapte
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
+                overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
                 finish();
                 break;
             case R.id.iv_search:
@@ -102,6 +103,7 @@ public class SpecFinanceActivity extends AppCompatActivity implements BillAdapte
         Intent intent = new Intent(getApplicationContext(), SpecBillActivity.class);
         intent.putExtra(ConstantsValue.BILL_BEAN_TAG, billBean);
         startActivityForResult(intent, REQUEST_CODE);
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
         selectedPosition = index;
     }
 

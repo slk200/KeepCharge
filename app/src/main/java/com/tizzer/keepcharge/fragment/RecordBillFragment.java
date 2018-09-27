@@ -1,7 +1,9 @@
 package com.tizzer.keepcharge.fragment;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -9,8 +11,10 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.TimePicker;
 
 import com.tizzer.keepcharge.R;
 import com.tizzer.keepcharge.callback.OnBillRecordListener;
@@ -19,14 +23,24 @@ import com.tizzer.keepcharge.db.OrmLiteHelper;
 import com.tizzer.keepcharge.entity.Bill;
 import com.tizzer.keepcharge.util.ToastUtil;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
-public class RecordBillFragment extends DialogFragment implements DialogInterface.OnClickListener {
+public class RecordBillFragment extends DialogFragment
+        implements DialogInterface.OnClickListener, View.OnClickListener {
 
+    public static final boolean IS_24_HOUR_VIEW = true;
     private EditText mMoney;
     private EditText mNote;
+    private EditText mDate;
+    private EditText mTime;
     private boolean type = true;
     private OnBillRecordListener listener;
+    private DatePickerDialog datePickerDialog;
+    private TimePickerDialog timePickerDialog;
 
     public static RecordBillFragment getInstance(int sid) {
         RecordBillFragment recordBillFragment = new RecordBillFragment();
@@ -59,6 +73,11 @@ public class RecordBillFragment extends DialogFragment implements DialogInterfac
         RadioGroup radioGroup = view.findViewById(R.id.rg_type);
         mMoney = view.findViewById(R.id.et_money);
         mNote = view.findViewById(R.id.et_note);
+        mDate = view.findViewById(R.id.et_date);
+        mTime = view.findViewById(R.id.et_time);
+
+        mDate.setOnClickListener(this);
+        mTime.setOnClickListener(this);
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -83,7 +102,17 @@ public class RecordBillFragment extends DialogFragment implements DialogInterfac
             case AlertDialog.BUTTON_POSITIVE:
                 String money = mMoney.getText().toString().trim();
                 if (money.equals("")) {
-                    ToastUtil.simpleToast(getActivity(), getString(R.string.please_input_money));
+                    ToastUtil.simpleToast(getActivity(), getString(R.string.please_input_money_tip));
+                    return;
+                }
+                String date = mDate.getText().toString();
+                if (date.equals("")) {
+                    ToastUtil.simpleToast(getActivity(), getString(R.string.please_input_date_tip));
+                    return;
+                }
+                String time = mTime.getText().toString();
+                if (time.equals("")) {
+                    ToastUtil.simpleToast(getActivity(), getString(R.string.please_choose_time_tip));
                     return;
                 }
                 String note = mNote.getText().toString().trim();
@@ -92,7 +121,8 @@ public class RecordBillFragment extends DialogFragment implements DialogInterfac
                 bill.setType(type);
                 bill.setMoney(Double.parseDouble(money));
                 bill.setNote(note);
-                bill.setDate(new Date());
+                bill.setDate(string2Date(date + " " + time));
+//                bill.setDate(new Date());
                 int result = OrmLiteHelper.getHelper(getActivity()).recordBill(bill);
                 if (result == 0) {
                     ToastUtil.simpleToast(getActivity(), getString(R.string.save_error));
@@ -102,6 +132,67 @@ public class RecordBillFragment extends DialogFragment implements DialogInterfac
                 } else {
                     ToastUtil.simpleToast(getActivity(), getString(R.string.app_error));
                 }
+                break;
+        }
+    }
+
+    private Date string2Date(String datetime) {
+        try {
+            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS", Locale.CHINA).parse(datetime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return new Date();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.et_date:
+                Calendar calendar1 = Calendar.getInstance();
+                if (datePickerDialog == null) {
+                    datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                            String date = year + "-";
+                            if (month + 1 < 10) {
+                                date += "0" + (month + 1) + "-";
+                            } else {
+                                date += (month + 1) + "-";
+                            }
+                            if (dayOfMonth < 10) {
+                                date += "0" + dayOfMonth;
+                            } else {
+                                date += dayOfMonth;
+                            }
+                            mDate.setText(date);
+                        }
+                    }, calendar1.get(Calendar.YEAR), calendar1.get(Calendar.MONTH), calendar1.get(Calendar.DAY_OF_MONTH));
+                }
+                datePickerDialog.show();
+                break;
+            case R.id.et_time:
+                Calendar calendar2 = Calendar.getInstance();
+                if (timePickerDialog == null) {
+                    timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                            String time = "";
+                            if (hourOfDay < 10) {
+                                time += "0" + hourOfDay + ":";
+                            } else {
+                                time += hourOfDay + ":";
+                            }
+                            if (minute < 10) {
+                                time += "0" + minute + ":";
+                            } else {
+                                time += minute + ":";
+                            }
+                            mTime.setText(time + "00.000000");
+                        }
+                    }, calendar2.get(Calendar.HOUR_OF_DAY), calendar2.get(Calendar.MINUTE), IS_24_HOUR_VIEW);
+                }
+                timePickerDialog.show();
                 break;
         }
     }

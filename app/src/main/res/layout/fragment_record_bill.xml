@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:stretchColumns="1,2">
 
-    <LinearLayout
+    <TableRow
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:gravity="center_vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/type" />
+        <TextView android:text="@string/type" />
 
         <RadioGroup
             android:id="@+id/rg_type"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="horizontal">
 
             <RadioButton
@@ -40,44 +33,70 @@
 
         </RadioGroup>
 
-    </LinearLayout>
+    </TableRow>
 
-    <LinearLayout
+    <TableRow
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:gravity="center_vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/money" />
+        <TextView android:text="@string/money" />
 
         <EditText
             android:id="@+id/et_money"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:inputType="numberDecimal" />
 
-    </LinearLayout>
+    </TableRow>
 
-    <LinearLayout
+    <TableRow
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:gravity="center_vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/note" />
+        <TextView android:text="@string/note" />
 
         <EditText
             android:id="@+id/et_note"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:inputType="text" />
 
-    </LinearLayout>
+    </TableRow>
 
-</LinearLayout>
+    <TableRow
+        android:layout_width="match_parent"
+        android:gravity="center_vertical">
+
+        <TextView android:text="@string/date" />
+
+        <EditText
+            android:id="@+id/et_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:cursorVisible="false"
+            android:ems="10"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:hint="@string/please_choose_date"
+            android:inputType="date"
+            android:textSize="14sp" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:gravity="center_vertical">
+
+        <TextView android:text="@string/date" />
+
+        <EditText
+            android:id="@+id/et_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:cursorVisible="false"
+            android:ems="10"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:hint="@string/please_choose_time"
+            android:inputType="time"
+            android:textSize="14sp" />
+
+    </TableRow>
+
+</TableLayout>

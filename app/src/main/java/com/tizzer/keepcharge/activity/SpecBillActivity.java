@@ -56,6 +56,7 @@ public class SpecBillActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
+                overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
                 finish();
                 break;
             case R.id.iv_submit:

@@ -72,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements OnStoreAddedListe
         switch (item.getItemId()) {
             case R.id.menu_output:
                 startActivity(new Intent(getApplicationContext(), OutputActivity.class));
+                overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

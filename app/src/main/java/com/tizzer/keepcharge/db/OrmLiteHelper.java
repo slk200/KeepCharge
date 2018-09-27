@@ -148,7 +148,7 @@ public class OrmLiteHelper extends OrmLiteSqliteOpenHelper {
     public List<BillBean> getBills(int sid, int rangeStart, int rangeEnd) {
         List<BillBean> billBeans = new ArrayList<>();
         try {
-            GenericRawResults<String[]> strings = billDao.queryRaw("select id,money,note,date,type from tb_bill where sid=? limit ?,?",
+            GenericRawResults<String[]> strings = billDao.queryRaw("select id,money,note,date,type from tb_bill where sid=? order by date desc limit ?,?",
                     String.valueOf(sid), String.valueOf(rangeStart), String.valueOf(rangeEnd));
             List<String[]> results = strings.getResults();
             for (String[] element : results) {

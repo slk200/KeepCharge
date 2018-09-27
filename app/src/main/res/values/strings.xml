@@ -32,7 +32,7 @@
     <string name="out">支出</string>
     <string name="note">备注：</string>
     <string name="record_bill">录入账单</string>
-    <string name="please_input_money">请输入金额哦亲！</string>
+    <string name="please_input_money_tip">请输入金额哦亲！</string>
     <string name="save_error">保存失败</string>
     <string name="save_ok">保存成功</string>
     <string name="bills_spec">账单详情</string>
@@ -53,4 +53,9 @@
     <string name="need_write_permission">需要写入权限才可以使用该功能哦亲！</string>
     <string name="output_to_folder_document_successful">导出到手机存储文件夹Document成功</string>
     <string name="no_sd_card">手机没有插入存储卡哦亲！</string>
+    <string name="date">日期：</string>
+    <string name="please_choose_date">请选择日期</string>
+    <string name="please_choose_time">请选择时间</string>
+    <string name="please_input_date_tip">请选择日期哦亲！</string>
+    <string name="please_choose_time_tip">请选择时间哦亲！</string>
 </resources>
