@@ -41,7 +41,7 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
         if (billBean.getType()) {
             holder.billIconView.setImageResource(R.drawable.ic_bill_in);
             holder.moneyView.setText("+" + billBean.getMoney());
-            holder.moneyView.setTextColor(context.getResources().getColor(R.color.colorHoloRed));
+            holder.moneyView.setTextColor(context.getResources().getColor(R.color.colorHoloRedLight));
         } else {
             holder.billIconView.setImageResource(R.drawable.ic_bill_out);
             holder.moneyView.setText("-" + billBean.getMoney());

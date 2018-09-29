@@ -122,7 +122,6 @@ public class RecordBillFragment extends DialogFragment
                 bill.setMoney(Double.parseDouble(money));
                 bill.setNote(note);
                 bill.setDate(string2Date(date + " " + time));
-//                bill.setDate(new Date());
                 int result = OrmLiteHelper.getHelper(getActivity()).recordBill(bill);
                 if (result == 0) {
                     ToastUtil.simpleToast(getActivity(), getString(R.string.save_error));
