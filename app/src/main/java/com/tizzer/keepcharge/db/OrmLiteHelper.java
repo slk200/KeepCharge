@@ -2,6 +2,7 @@ package com.tizzer.keepcharge.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
@@ -12,21 +13,19 @@ import com.tizzer.keepcharge.bean.BillBean;
 import com.tizzer.keepcharge.bean.StoreBean;
 import com.tizzer.keepcharge.constant.ConstantsValue;
 import com.tizzer.keepcharge.entity.Bill;
+import com.tizzer.keepcharge.entity.Fact;
 import com.tizzer.keepcharge.entity.Store;
 
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class OrmLiteHelper extends OrmLiteSqliteOpenHelper {
     private static final String TAG = "OrmLiteHelper";
     private static OrmLiteHelper ormLiteHelper;
     private static Dao<Store, Integer> storeDao;
     private static Dao<Bill, Integer> billDao;
+    private static Dao<Fact, Integer> factDao;
 
     private OrmLiteHelper(Context context) {
         super(context, ConstantsValue.DB_NAME, null, ConstantsValue.DB_VERSION);
@@ -38,6 +37,7 @@ public class OrmLiteHelper extends OrmLiteSqliteOpenHelper {
                 ormLiteHelper = new OrmLiteHelper(context);
                 storeDao = ormLiteHelper.getDao(Store.class);
                 billDao = ormLiteHelper.getDao(Bill.class);
+                factDao = ormLiteHelper.getDao(Fact.class);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -50,6 +50,7 @@ public class OrmLiteHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.createTable(connectionSource, Store.class);
             TableUtils.createTable(connectionSource, Bill.class);
+            TableUtils.createTable(connectionSource, Fact.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -60,6 +61,7 @@ public class OrmLiteHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.dropTable(connectionSource, Store.class, true);
             TableUtils.dropTable(connectionSource, Bill.class, true);
+            TableUtils.dropTable(connectionSource, Fact.class, true);
             onCreate(database);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -78,11 +80,28 @@ public class OrmLiteHelper extends OrmLiteSqliteOpenHelper {
             if (stores != null && !stores.isEmpty()) {
                 return 0;
             } else {
-                return storeDao.create(new Store(name));
+                int id = storeDao.create(new Store(name));
+                saveFact(id, 0, 0);
+                return id;
             }
         } catch (SQLException e) {
             e.printStackTrace();
             return -1;
+        }
+    }
+
+    /**
+     * 插入新店铺的收营概况
+     *
+     * @param sid
+     * @param income
+     * @param payment
+     */
+    public void saveFact(int sid, double income, double payment) {
+        try {
+            factDao.create(new Fact(sid, income, payment));
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -107,29 +126,18 @@ public class OrmLiteHelper extends OrmLiteSqliteOpenHelper {
      *
      * @return
      */
-    public List<StoreBean> getAllStoreBean() {
+    public List<StoreBean> getSituation() {
         List<StoreBean> storeBeans = new ArrayList<>();
-        /**
-         * 获取当前日期的前一天
-         */
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        //当前日期减一天
-        calendar.add(Calendar.DATE, -1);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
-        String date = dateFormat.format(calendar.getTime());
         try {
             List<Store> stores = storeDao.queryForAll();
-            for (Store store : stores) {
-                GenericRawResults<String[]> strings1 = billDao.queryRaw("select sum(money) from tb_bill where sid=? and type=1 and date between ? and ?",
-                        String.valueOf(store.getId()), date + " 00:00:00", date + " 23:59:59");
-                String[] firstResult1 = strings1.getFirstResult();
-                double money1 = firstResult1[0] == null ? 0 : Double.valueOf(firstResult1[0]);
-                GenericRawResults<String[]> strings2 = billDao.queryRaw("select sum(money) from tb_bill where sid=? and type=0 and date between ? and ?",
-                        String.valueOf(store.getId()), date + " 00:00:00", date + " 23:59:59");
-                String[] firstResult2 = strings2.getFirstResult();
-                double money2 = firstResult2[0] == null ? 0 : Double.valueOf(firstResult2[0]);
-                storeBeans.add(new StoreBean(store.getId(), store.getName(), money1, money2, 1));
+            Log.e(TAG, "getSituation: " + stores);
+            if (stores != null && !stores.isEmpty()) {
+                for (Store store : stores) {
+                    Fact fact = factDao.queryForId(store.getId());
+                    Log.e(TAG, "getSituation: " + fact);
+                    storeBeans.add(new StoreBean(store.getId(), store.getName(), fact.getIncome() - fact.getPayment(),
+                            fact.getIncome(), fact.getPayment(), 1));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -198,7 +206,7 @@ public class OrmLiteHelper extends OrmLiteSqliteOpenHelper {
     }
 
     /**
-     * 修改账单金额
+     * 修改账单类型
      *
      * @param id
      * @param type
@@ -246,6 +254,71 @@ public class OrmLiteHelper extends OrmLiteSqliteOpenHelper {
             e.printStackTrace();
         }
         return results;
+    }
+
+    /**
+     * 获取某个店铺的收营概况
+     *
+     * @param id
+     * @return
+     */
+    public Fact getSituation(int id) {
+        Fact fact = null;
+        try {
+            fact = factDao.queryForId(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return fact;
+    }
+
+    /**
+     * 修改店铺收营概况（由于录入）
+     *
+     * @param sid
+     * @param type
+     * @param money
+     */
+    public void updateFactByRecord(int sid, boolean type, String money) {
+        try {
+            if (type) {
+                factDao.updateRaw("update tb_fact set income=income+? where id=?", money, String.valueOf(sid));
+            } else {
+                factDao.updateRaw("update tb_fact set payment=payment+? where id=?", money, String.valueOf(sid));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 修改店铺的收营概况（由于修改金额）
+     */
+    public void updateFactByMoney(int sid, boolean type, String dValue) {
+        try {
+            if (type) {
+                factDao.updateRaw("update tb_fact set income=income+? where id=?", dValue, String.valueOf(sid));
+            } else {
+                factDao.updateRaw("update tb_fact set payment=payment+? where id=?", dValue, String.valueOf(sid));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 修改店铺的收营概况（由于修改类型）
+     */
+    public void updateFactByType(int sid, boolean type, String money) {
+        try {
+            if (type) {
+                factDao.updateRaw("update tb_fact set income=income+?,payment=payment-? where id=?", money, money, String.valueOf(sid));
+            } else {
+                factDao.updateRaw("update tb_fact set income=income-?,payment=payment+? where id=?", money, money, String.valueOf(sid));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

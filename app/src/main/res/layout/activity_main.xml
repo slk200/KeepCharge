@@ -50,7 +50,7 @@
                 android:background="?attr/colorPrimary"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:title="@string/stores_of_wang"
+                app:title="@string/txby"
                 app:titleTextColor="@color/colorWhite" />
 
         </android.support.design.widget.AppBarLayout>

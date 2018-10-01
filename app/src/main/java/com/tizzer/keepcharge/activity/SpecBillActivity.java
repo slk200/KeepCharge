@@ -9,14 +9,10 @@ import android.widget.TextView;
 
 import com.tizzer.keepcharge.R;
 import com.tizzer.keepcharge.bean.BillBean;
+import com.tizzer.keepcharge.bean.StoreBean;
 import com.tizzer.keepcharge.constant.ConstantsValue;
 import com.tizzer.keepcharge.db.OrmLiteHelper;
 import com.tizzer.keepcharge.util.ToastUtil;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,8 +30,8 @@ public class SpecBillActivity extends AppCompatActivity {
     EditText mMoneyEdit;
 
     private BillBean billBean;
+    private StoreBean storeBean;
     private Intent intent;
-    private int isYesterday = ConstantsValue.ORIGINAL_CODE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +43,7 @@ public class SpecBillActivity extends AppCompatActivity {
 
     private void initView() {
         billBean = (BillBean) getIntent().getSerializableExtra(ConstantsValue.BILL_BEAN_TAG);
+        storeBean = (StoreBean) getIntent().getSerializableExtra(ConstantsValue.STORE_BEAN_TAG);
         mMoneyView.setText((billBean.getType() ? "+" : "-") + billBean.getMoney());
         mNoteView.setText(billBean.getNote());
         mTimeView.setText(billBean.getTime());
@@ -64,16 +61,17 @@ public class SpecBillActivity extends AppCompatActivity {
                 if (money.equals("")) {
                     ToastUtil.simpleToast(getApplicationContext(), getString(R.string.money_can_bot_be_null));
                 } else {
+                    double newMoney = Double.parseDouble(money);
+                    double dValue = newMoney - billBean.getMoney();
                     int result = OrmLiteHelper.getHelper(getApplicationContext()).updateBillMoney(billBean.getId(), money);
+                    OrmLiteHelper.getHelper(getApplicationContext()).updateFactByMoney(storeBean.getId(), billBean.getType(), String.valueOf(dValue));
                     switch (result) {
                         case ConstantsValue.ORIGINAL_CODE:
                             ToastUtil.simpleToast(getApplicationContext(), getString(R.string.update_error));
                             break;
                         case ConstantsValue.RIGHT_CODE:
-                            double newValue = Double.parseDouble(money);
-                            double d_value = newValue - billBean.getMoney();
-                            billBean.setMoney(newValue);
-                            deliverData(ConstantsValue.FALSE_CODE, d_value);
+                            billBean.setMoney(Double.parseDouble(money));
+                            deliverData();
                             break;
                         case ConstantsValue.FALSE_CODE:
                             ToastUtil.simpleToast(getApplicationContext(), getString(R.string.app_error));
@@ -84,12 +82,13 @@ public class SpecBillActivity extends AppCompatActivity {
             case R.id.btn_update:
                 billBean.setType(!billBean.getType());
                 int result = OrmLiteHelper.getHelper(getApplicationContext()).updateBillType(billBean.getId(), billBean.getType());
+                OrmLiteHelper.getHelper(getApplicationContext()).updateFactByType(storeBean.getId(), billBean.getType(), String.valueOf(billBean.getMoney()));
                 switch (result) {
                     case ConstantsValue.ORIGINAL_CODE:
                         ToastUtil.simpleToast(getApplicationContext(), getString(R.string.update_error));
                         break;
                     case ConstantsValue.RIGHT_CODE:
-                        deliverData(ConstantsValue.RIGHT_CODE, 0);
+                        deliverData();
                         break;
                     case ConstantsValue.FALSE_CODE:
                         ToastUtil.simpleToast(getApplicationContext(), getString(R.string.app_error));
@@ -99,32 +98,14 @@ public class SpecBillActivity extends AppCompatActivity {
         }
     }
 
-    private void deliverData(int code, double value) {
+    private void deliverData() {
         ToastUtil.simpleToast(getApplicationContext(), getString(R.string.update_ok));
         mMoneyView.setText((billBean.getType() ? "+" : "-") + billBean.getMoney());
         if (intent == null) {
             intent = new Intent();
         }
-        if (isYesterday == ConstantsValue.ORIGINAL_CODE) {
-            isYesterday = judgeTime(billBean.getTime());
-        }
-        intent.putExtra(ConstantsValue.IS_YESTERDAY_TAG, isYesterday);
-        intent.putExtra(ConstantsValue.IS_CHANGE_TYPE_TAG, code);
-        intent.putExtra(ConstantsValue.D_VALUE_TAG, value);
         intent.putExtra(ConstantsValue.BILL_BEAN_TAG, billBean);
         setResult(RESULT_OK, intent);
     }
 
-    private int judgeTime(String time) {
-        /**
-         * 获取当前日期的前一天
-         */
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        //当前日期减一天
-        calendar.add(Calendar.DATE, -1);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
-        String date = dateFormat.format(calendar.getTime());
-        return time.startsWith(date) ? ConstantsValue.RIGHT_CODE : ConstantsValue.FALSE_CODE;
-    }
 }

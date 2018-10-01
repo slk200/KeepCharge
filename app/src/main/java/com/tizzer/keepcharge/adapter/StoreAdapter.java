@@ -44,6 +44,7 @@ public class StoreAdapter extends RecyclerView.Adapter {
             final StoreBean storeBean = storeBeans.get(position);
             StoreViewHolder storeViewHolder = (StoreViewHolder) holder;
             storeViewHolder.mStoreName.setText(storeBean.getName());
+            storeViewHolder.mRetain.setText(String.valueOf(storeBean.getRetain()));
             storeViewHolder.mIncome.setText(String.valueOf(storeBean.getIncome()));
             storeViewHolder.mPayment.setText(String.valueOf(storeBean.getPayment()));
             final int index = position;
@@ -84,6 +85,7 @@ public class StoreAdapter extends RecyclerView.Adapter {
 
         CardView mStore;
         TextView mStoreName;
+        TextView mRetain;
         TextView mIncome;
         TextView mPayment;
 
@@ -91,6 +93,7 @@ public class StoreAdapter extends RecyclerView.Adapter {
             super(itemView);
             mStore = itemView.findViewById(R.id.card_store);
             mStoreName = itemView.findViewById(R.id.tv_name);
+            mRetain = itemView.findViewById(R.id.tv_retain);
             mIncome = itemView.findViewById(R.id.tv_income);
             mPayment = itemView.findViewById(R.id.tv_payment);
         }

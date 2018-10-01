@@ -7,6 +7,7 @@ public class StoreBean implements Serializable {
 
     private int id;
     private String name;
+    private double retain;
     private double income;
     private double payment;
     private int type;
@@ -18,9 +19,10 @@ public class StoreBean implements Serializable {
         this.type = type;
     }
 
-    public StoreBean(int id, String name, double income, double payment, int type) {
+    public StoreBean(int id, String name, double retain, double income, double payment, int type) {
         this.id = id;
         this.name = name;
+        this.retain = retain;
         this.income = income;
         this.payment = payment;
         this.type = type;
@@ -40,6 +42,14 @@ public class StoreBean implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public double getRetain() {
+        return retain;
+    }
+
+    public void setRetain(double retain) {
+        this.retain = retain;
     }
 
     public double getIncome() {
@@ -72,6 +82,7 @@ public class StoreBean implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         StoreBean storeBean = (StoreBean) o;
         return id == storeBean.id &&
+                Double.compare(storeBean.retain, retain) == 0 &&
                 Double.compare(storeBean.income, income) == 0 &&
                 Double.compare(storeBean.payment, payment) == 0 &&
                 type == storeBean.type &&
@@ -81,7 +92,7 @@ public class StoreBean implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, income, payment, type);
+        return Objects.hash(id, name, retain, income, payment, type);
     }
 
     @Override
@@ -89,6 +100,7 @@ public class StoreBean implements Serializable {
         return "StoreBean{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", retain=" + retain +
                 ", income=" + income +
                 ", payment=" + payment +
                 ", type=" + type +

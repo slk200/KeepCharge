@@ -116,13 +116,16 @@ public class RecordBillFragment extends DialogFragment
                     return;
                 }
                 String note = mNote.getText().toString().trim();
+                int sid = getArguments().getInt(ConstantsValue.STORE_BEAN_TAG);
                 Bill bill = new Bill();
-                bill.setSid(getArguments().getInt(ConstantsValue.STORE_BEAN_TAG));
+                bill.setSid(sid);
                 bill.setType(type);
                 bill.setMoney(Double.parseDouble(money));
                 bill.setNote(note);
                 bill.setDate(string2Date(date + " " + time));
                 int result = OrmLiteHelper.getHelper(getActivity()).recordBill(bill);
+                OrmLiteHelper.getHelper(getContext()).updateFactByRecord(sid,
+                        type, money);
                 if (result == 0) {
                     ToastUtil.simpleToast(getActivity(), getString(R.string.save_error));
                 } else if (result == 1) {
@@ -137,7 +140,7 @@ public class RecordBillFragment extends DialogFragment
 
     private Date string2Date(String datetime) {
         try {
-            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS", Locale.CHINA).parse(datetime);
+            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).parse(datetime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -187,7 +190,7 @@ public class RecordBillFragment extends DialogFragment
                             } else {
                                 time += minute + ":";
                             }
-                            mTime.setText(time + "00.000000");
+                            mTime.setText(time + "00");
                         }
                     }, calendar2.get(Calendar.HOUR_OF_DAY), calendar2.get(Calendar.MINUTE), IS_24_HOUR_VIEW);
                 }

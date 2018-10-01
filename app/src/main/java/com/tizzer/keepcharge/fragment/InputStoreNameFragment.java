@@ -64,7 +64,7 @@ public class InputStoreNameFragment extends DialogFragment implements DialogInte
                 if (result == 1) {
                     int id = OrmLiteHelper.getHelper(getActivity()).getStoreId(storeName);
                     if (id != -1) {
-                        listener.onStoreAdded(new StoreBean(id, storeName, 0, 0, 1));
+                        listener.onStoreAdded(new StoreBean(id, storeName, 0, 0, 0, 1));
                     } else {
                         ToastUtil.simpleToast(getActivity(), getString(R.string.app_error));
                     }

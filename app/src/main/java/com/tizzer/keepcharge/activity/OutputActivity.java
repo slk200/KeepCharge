@@ -17,7 +17,7 @@ import android.widget.Spinner;
 import com.tizzer.keepcharge.R;
 import com.tizzer.keepcharge.adapter.StoreSpinnerAdapter;
 import com.tizzer.keepcharge.db.OrmLiteHelper;
-import com.tizzer.keepcharge.util.ExcelUtils;
+import com.tizzer.keepcharge.util.ExcelUtil;
 import com.tizzer.keepcharge.util.FileUtil;
 import com.tizzer.keepcharge.util.ToastUtil;
 
@@ -150,8 +150,8 @@ public class OutputActivity extends AppCompatActivity implements AdapterView.OnI
 
         FileUtil.createFolder();
         String filename = FileUtil.createFileName(year, month);
-        ExcelUtils.initExcel(filename, title);
-        ExcelUtils.writeObjListToExcel(data, filename, this);
+        ExcelUtil.initExcel(filename, title);
+        ExcelUtil.writeObjListToExcel(data, filename, this);
 
     }
 

@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -39,11 +38,13 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
     public void onBindViewHolder(BillViewHolder holder, int position) {
         final BillBean billBean = billBeans.get(position);
         if (billBean.getType()) {
-            holder.billIconView.setImageResource(R.drawable.ic_bill_in);
+            holder.logoView.setBackground(context.getDrawable(R.drawable.income_paint));
+            holder.logoView.setText(context.getText(R.string.logo_in));
             holder.moneyView.setText("+" + billBean.getMoney());
             holder.moneyView.setTextColor(context.getResources().getColor(R.color.colorHoloRedLight));
         } else {
-            holder.billIconView.setImageResource(R.drawable.ic_bill_out);
+            holder.logoView.setBackground(context.getDrawable(R.drawable.payment_paint));
+            holder.logoView.setText(context.getText(R.string.logo_out));
             holder.moneyView.setText("-" + billBean.getMoney());
             holder.moneyView.setTextColor(context.getResources().getColor(R.color.colorBlack));
         }
@@ -70,15 +71,15 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
     class BillViewHolder extends RecyclerView.ViewHolder {
 
         LinearLayout billView;
-        ImageView billIconView;
+        TextView logoView;
         TextView moneyView;
         TextView timeView;
         TextView noteView;
 
         BillViewHolder(View itemView) {
             super(itemView);
-            billView = itemView.findViewById(R.id.rl_bill);
-            billIconView = itemView.findViewById(R.id.iv_bill);
+            billView = itemView.findViewById(R.id.ll_bill);
+            logoView = itemView.findViewById(R.id.tv_logo);
             moneyView = itemView.findViewById(R.id.tv_money);
             timeView = itemView.findViewById(R.id.tv_time);
             noteView = itemView.findViewById(R.id.tv_note);

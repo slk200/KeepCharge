@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,10 @@ import android.view.ViewGroup;
 import com.tizzer.keepcharge.R;
 import com.tizzer.keepcharge.activity.SpecFinanceActivity;
 import com.tizzer.keepcharge.adapter.StoreAdapter;
-import com.tizzer.keepcharge.bean.BillBean;
 import com.tizzer.keepcharge.bean.StoreBean;
 import com.tizzer.keepcharge.constant.ConstantsValue;
 import com.tizzer.keepcharge.db.OrmLiteHelper;
+import com.tizzer.keepcharge.entity.Fact;
 
 import java.util.List;
 
@@ -25,12 +26,14 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class FinanceFragment extends Fragment implements StoreAdapter.OnCardClickedListener {
+    private static final String TAG = "FinanceFragment";
     private static final int REQUEST_CODE = 0;
 
     @BindView(R.id.rv_store)
     RecyclerView mRVStore;
 
     private List<StoreBean> mStoreBeans;
+    private StoreBean storeBean;
     private StoreAdapter mStoreAdapter;
     private Unbinder unbinder;
     private int selectedPosition;
@@ -50,7 +53,7 @@ public class FinanceFragment extends Fragment implements StoreAdapter.OnCardClic
     }
 
     private void initView() {
-        mStoreBeans = OrmLiteHelper.getHelper(getActivity()).getAllStoreBean();
+        mStoreBeans = OrmLiteHelper.getHelper(getActivity()).getSituation();
         mStoreBeans.add(new StoreBean(0));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getActivity().getApplicationContext());
         mRVStore.setLayoutManager(linearLayoutManager);
@@ -61,6 +64,7 @@ public class FinanceFragment extends Fragment implements StoreAdapter.OnCardClic
 
     @Override
     public void onStoreClick(StoreBean storeBean, int position) {
+        this.storeBean = storeBean;
         Intent intent = new Intent(getActivity(), SpecFinanceActivity.class);
         intent.putExtra(ConstantsValue.STORE_BEAN_TAG, storeBean);
         getActivity().startActivityForResult(intent, REQUEST_CODE);
@@ -71,24 +75,11 @@ public class FinanceFragment extends Fragment implements StoreAdapter.OnCardClic
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                StoreBean storeBean = (StoreBean) data.getSerializableExtra(ConstantsValue.STORE_BEAN_TAG);
-                BillBean billBean = (BillBean) data.getSerializableExtra(ConstantsValue.BILL_BEAN_TAG);
-                if (data.getIntExtra(ConstantsValue.IS_CHANGE_TYPE_TAG, 0) == ConstantsValue.RIGHT_CODE) {
-                    if (billBean.getType()) {
-                        storeBean.setIncome(storeBean.getIncome() + billBean.getMoney());
-                        storeBean.setPayment(storeBean.getPayment() - billBean.getMoney());
-                    } else {
-                        storeBean.setIncome(storeBean.getIncome() - billBean.getMoney());
-                        storeBean.setPayment(storeBean.getPayment() + billBean.getMoney());
-                    }
-                } else {
-                    double value = data.getDoubleExtra(ConstantsValue.D_VALUE_TAG, 0);
-                    if (billBean.getType()) {
-                        storeBean.setIncome(storeBean.getIncome() + value);
-                    } else {
-                        storeBean.setPayment(storeBean.getPayment() + value);
-                    }
-                }
+                Fact fact = OrmLiteHelper.getHelper(getContext()).getSituation(storeBean.getId());
+                Log.e(TAG, "onActivityResult: " + fact);
+                storeBean.setRetain(fact.getIncome() - fact.getPayment());
+                storeBean.setIncome(fact.getIncome());
+                storeBean.setPayment(fact.getPayment());
                 mStoreBeans.set(selectedPosition, storeBean);
                 mRVStore.getAdapter().notifyItemChanged(selectedPosition);
             }

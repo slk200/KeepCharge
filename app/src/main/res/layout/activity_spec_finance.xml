@@ -46,6 +46,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_bill_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
             <LinearLayout
                 android:id="@+id/ll_bottom"
                 android:layout_width="match_parent"
@@ -66,12 +71,6 @@
                     android:text="@string/no_history_bills" />
 
             </LinearLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_bill_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="5dp" />
 
         </FrameLayout>
 

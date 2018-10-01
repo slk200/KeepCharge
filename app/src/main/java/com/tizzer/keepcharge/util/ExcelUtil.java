@@ -23,7 +23,7 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 
-public class ExcelUtils {
+public class ExcelUtil {
     private final static String UTF8_ENCODING = "UTF-8";
     private static WritableCellFormat arial10format = null;
     private static WritableCellFormat arial12format = null;

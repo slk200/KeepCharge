@@ -12,19 +12,19 @@ public class Bill {
     @DatabaseField(generatedId = true)
     private int id;
 
-    @DatabaseField
+    @DatabaseField(canBeNull = false)
     private int sid;
 
-    @DatabaseField
+    @DatabaseField(canBeNull = false)
     private double money;
 
-    @DatabaseField(dataType = DataType.DATE)
+    @DatabaseField(canBeNull = false, dataType = DataType.DATE, format = "yyyy-MM-dd HH:mm:ss")
     private Date date;
 
-    @DatabaseField
+    @DatabaseField(canBeNull = false)
     private Boolean type;
 
-    @DatabaseField
+    @DatabaseField(canBeNull = false)
     private String note;
 
     public int getId() {
@@ -73,5 +73,17 @@ public class Bill {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    @Override
+    public String toString() {
+        return "Bill{" +
+                "id=" + id +
+                ", sid=" + sid +
+                ", money=" + money +
+                ", date=" + date +
+                ", type=" + type +
+                ", note='" + note + '\'' +
+                '}';
     }
 }
