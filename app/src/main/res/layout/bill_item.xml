@@ -44,8 +44,8 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:text="test"
-                android:textSize="18sp"
-                android:textColor="@color/colorBlack" />
+                android:textColor="@color/colorBlack"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_money"
@@ -62,8 +62,8 @@
             android:id="@+id/tv_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="2018-09-23 12:05:22"/>
+            android:layout_marginTop="10dp"
+            android:text="2018-09-23 12:05:22" />
 
         <View
             android:layout_width="match_parent"

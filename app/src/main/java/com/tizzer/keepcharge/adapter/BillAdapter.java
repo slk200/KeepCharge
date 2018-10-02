@@ -1,6 +1,7 @@
 package com.tizzer.keepcharge.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.tizzer.keepcharge.R;
 import com.tizzer.keepcharge.bean.BillBean;
+import com.tizzer.keepcharge.callback.OnBillClickedListener;
 
 import java.util.List;
 
@@ -26,8 +28,9 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
         this.listener = listener;
     }
 
+    @NonNull
     @Override
-    public BillViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BillViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (context == null) {
             context = parent.getContext();
         }
@@ -35,17 +38,17 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
     }
 
     @Override
-    public void onBindViewHolder(BillViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BillViewHolder holder, int position) {
         final BillBean billBean = billBeans.get(position);
         if (billBean.getType()) {
-            holder.logoView.setBackground(context.getDrawable(R.drawable.income_paint));
+            holder.logoView.setBackground(context.getResources().getDrawable(R.drawable.income_paint));
             holder.logoView.setText(context.getText(R.string.logo_in));
-            holder.moneyView.setText("+" + billBean.getMoney());
+            holder.moneyView.setText(String.format("+%s", billBean.getMoney()));
             holder.moneyView.setTextColor(context.getResources().getColor(R.color.colorHoloRedLight));
         } else {
-            holder.logoView.setBackground(context.getDrawable(R.drawable.payment_paint));
+            holder.logoView.setBackground(context.getResources().getDrawable(R.drawable.payment_paint));
             holder.logoView.setText(context.getText(R.string.logo_out));
-            holder.moneyView.setText("-" + billBean.getMoney());
+            holder.moneyView.setText(String.format("-%s", billBean.getMoney()));
             holder.moneyView.setTextColor(context.getResources().getColor(R.color.colorBlack));
         }
         holder.noteView.setText(billBean.getNote());
@@ -62,10 +65,6 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
     @Override
     public int getItemCount() {
         return billBeans.size();
-    }
-
-    public interface OnBillClickedListener {
-        void onBillClicked(BillBean billBean, int index);
     }
 
     class BillViewHolder extends RecyclerView.ViewHolder {

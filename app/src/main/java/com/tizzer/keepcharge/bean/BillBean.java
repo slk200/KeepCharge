@@ -1,5 +1,7 @@
 package com.tizzer.keepcharge.bean;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -68,6 +70,7 @@ public class BillBean implements Serializable {
         return Objects.hash(id, money, time, note, type);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "BillBean{" +

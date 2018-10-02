@@ -2,10 +2,14 @@ package com.tizzer.keepcharge.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -13,27 +17,31 @@ import com.tizzer.keepcharge.R;
 import com.tizzer.keepcharge.adapter.BillAdapter;
 import com.tizzer.keepcharge.bean.BillBean;
 import com.tizzer.keepcharge.bean.StoreBean;
+import com.tizzer.keepcharge.callback.OnBillClickedListener;
 import com.tizzer.keepcharge.callback.OnBillRecordListener;
 import com.tizzer.keepcharge.constant.ConstantsValue;
-import com.tizzer.keepcharge.db.OrmLiteHelper;
+import com.tizzer.keepcharge.database.OrmLiteHelper;
 import com.tizzer.keepcharge.fragment.RecordBillFragment;
-import com.tizzer.keepcharge.util.ToastUtil;
 
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SpecFinanceActivity extends AppCompatActivity implements BillAdapter.OnBillClickedListener, OnBillRecordListener {
+public class SpecFinanceActivity extends AppCompatActivity implements OnBillClickedListener, OnBillRecordListener {
     private static final String TAG = "SpecFinanceActivity";
     private static final int STEP = 50;
     private static final int REQUEST_CODE = 1;
+    private static final int REQUEST_CODE2 = 2;
 
     @BindView(R.id.ll_bottom)
     LinearLayout mLLBottom;
     @BindView(R.id.rv_bill_list)
     RecyclerView mBillList;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     private int rangeStart = 0;
     private int rangeEnd = STEP;
@@ -51,6 +59,14 @@ public class SpecFinanceActivity extends AppCompatActivity implements BillAdapte
     }
 
     private void initView() {
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         storeBean = (StoreBean) getIntent().getSerializableExtra(ConstantsValue.STORE_BEAN_TAG);
         billBeans = OrmLiteHelper.getHelper(getApplicationContext()).getBills(storeBean.getId(), rangeStart, rangeEnd);
         if (billBeans.isEmpty()) {
@@ -62,7 +78,7 @@ public class SpecFinanceActivity extends AppCompatActivity implements BillAdapte
         mBillList.setAdapter(billAdapter);
         mBillList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (canScroll && !mBillList.canScrollVertically(1)) {
                     rangeStart += STEP;
@@ -70,7 +86,7 @@ public class SpecFinanceActivity extends AppCompatActivity implements BillAdapte
                     List<BillBean> bills = OrmLiteHelper.getHelper(getApplicationContext()).getBills(storeBean.getId(), rangeStart, rangeEnd);
                     if (bills != null && !bills.isEmpty()) {
                         billBeans.addAll(bills);
-                        mBillList.getAdapter().notifyItemRangeInserted(rangeStart, rangeEnd);
+                        Objects.requireNonNull(mBillList.getAdapter()).notifyItemRangeInserted(rangeStart, rangeEnd);
                         if (bills.size() < STEP) {
                             canScroll = false;
                         }
@@ -82,15 +98,9 @@ public class SpecFinanceActivity extends AppCompatActivity implements BillAdapte
         });
     }
 
-    @OnClick({R.id.iv_back, R.id.iv_search, R.id.fab_record})
+    @OnClick(R.id.fab_record)
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.iv_back:
-                finish();
-                break;
-            case R.id.iv_search:
-                ToastUtil.simpleToast(getApplicationContext(), "search");
-                break;
             case R.id.fab_record:
                 RecordBillFragment.getInstance(storeBean.getId()).show(getSupportFragmentManager(), RecordBillFragment.class.getSimpleName());
                 break;
@@ -120,21 +130,50 @@ public class SpecFinanceActivity extends AppCompatActivity implements BillAdapte
             Log.e(TAG, "onBillRecord: do it");
             billBeans.clear();
             billBeans.addAll(bills);
-            mBillList.getAdapter().notifyDataSetChanged();
+            Objects.requireNonNull(mBillList.getAdapter()).notifyDataSetChanged();
         }
         setResult(RESULT_OK);
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_search:
+                Intent intent = new Intent(this, FilterActivity.class);
+                intent.putExtra(ConstantsValue.STORE_BEAN_TAG, storeBean);
+                startActivityForResult(intent, REQUEST_CODE2);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                BillBean billBean = (BillBean) data.getSerializableExtra(ConstantsValue.BILL_BEAN_TAG);
-                billBeans.set(selectedPosition, billBean);
-                mBillList.getAdapter().notifyItemChanged(selectedPosition);
-                data.putExtra(ConstantsValue.STORE_BEAN_TAG, storeBean);
-                setResult(RESULT_OK);
-            }
+        switch (requestCode) {
+            case REQUEST_CODE:
+                if (resultCode == RESULT_OK) {
+                    BillBean billBean = (BillBean) data.getSerializableExtra(ConstantsValue.BILL_BEAN_TAG);
+                    billBeans.set(selectedPosition, billBean);
+                    Objects.requireNonNull(mBillList.getAdapter()).notifyItemChanged(selectedPosition);
+                    data.putExtra(ConstantsValue.STORE_BEAN_TAG, storeBean);
+                    setResult(RESULT_OK);
+                }
+                break;
+            case REQUEST_CODE2:
+                if (resultCode == RESULT_OK) {
+                    List<BillBean> bills = OrmLiteHelper.getHelper(getApplicationContext()).getBills(storeBean.getId(), 0, rangeEnd);
+                    billBeans.clear();
+                    billBeans.addAll(bills);
+                    Objects.requireNonNull(mBillList.getAdapter()).notifyDataSetChanged();
+                    setResult(RESULT_OK);
+                }
+                break;
         }
     }
 }

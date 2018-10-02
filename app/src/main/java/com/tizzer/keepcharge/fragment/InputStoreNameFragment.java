@@ -1,5 +1,6 @@
 package com.tizzer.keepcharge.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,8 +15,11 @@ import android.widget.EditText;
 import com.tizzer.keepcharge.R;
 import com.tizzer.keepcharge.bean.StoreBean;
 import com.tizzer.keepcharge.callback.OnStoreAddedListener;
-import com.tizzer.keepcharge.db.OrmLiteHelper;
+import com.tizzer.keepcharge.constant.ConstantsValue;
+import com.tizzer.keepcharge.database.OrmLiteHelper;
 import com.tizzer.keepcharge.util.ToastUtil;
+
+import java.util.Objects;
 
 public class InputStoreNameFragment extends DialogFragment implements DialogInterface.OnClickListener {
     private EditText mStoreName;
@@ -36,9 +40,9 @@ public class InputStoreNameFragment extends DialogFragment implements DialogInte
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_input_store_name, null);
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_input_store_name, null);
         initView(view);
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getContext()));
         builder.setTitle(R.string.please_input_store_name)
                 .setView(view)
                 .setPositiveButton(R.string.confirm, this)
@@ -55,28 +59,35 @@ public class InputStoreNameFragment extends DialogFragment implements DialogInte
 
         switch (which) {
             case AlertDialog.BUTTON_POSITIVE:
-                String storeName = mStoreName.getText().toString().trim();
-                if (storeName.equals("")) {
-                    ToastUtil.simpleToast(getActivity(), getString(R.string.store_name_can_not_be_null));
-                    return;
-                }
-                int result = OrmLiteHelper.getHelper(getActivity()).saveStore(storeName);
-                if (result == 1) {
-                    int id = OrmLiteHelper.getHelper(getActivity()).getStoreId(storeName);
-                    if (id != -1) {
-                        listener.onStoreAdded(new StoreBean(id, storeName, 0, 0, 0, 1));
-                    } else {
-                        ToastUtil.simpleToast(getActivity(), getString(R.string.app_error));
-                    }
-                } else if (result == 0) {
-                    ToastUtil.simpleToast(getActivity(), getString(R.string.repeat_store_name));
-                } else {
-                    ToastUtil.simpleToast(getActivity(), getString(R.string.app_error));
-                }
+                SaveStore();
                 break;
             case AlertDialog.BUTTON_NEGATIVE:
                 dialog.dismiss();
                 break;
+        }
+    }
+
+    /**
+     * 添加一个新店铺
+     */
+    private void SaveStore() {
+        String storeName = mStoreName.getText().toString().trim();
+        if (storeName.equals("")) {
+            ToastUtil.simpleToast(getActivity(), getString(R.string.store_name_can_not_be_null));
+            return;
+        }
+        int result = OrmLiteHelper.getHelper(getActivity()).saveStore(storeName);
+        if (result == ConstantsValue.RIGHT_CODE) {
+            int id = OrmLiteHelper.getHelper(getActivity()).getStoreId(storeName);
+            if (id != ConstantsValue.FALSE_CODE) {
+                listener.onStoreAdded(new StoreBean(id, storeName, 0, 0, 0, 1));
+            } else {
+                ToastUtil.simpleToast(getActivity(), getString(R.string.app_error));
+            }
+        } else if (result == ConstantsValue.ORIGINAL_CODE) {
+            ToastUtil.simpleToast(getActivity(), getString(R.string.repeat_store_name));
+        } else {
+            ToastUtil.simpleToast(getActivity(), getString(R.string.app_error));
         }
     }
 }

@@ -3,6 +3,7 @@ package com.tizzer.keepcharge.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,7 +12,7 @@ import com.tizzer.keepcharge.R;
 import com.tizzer.keepcharge.bean.BillBean;
 import com.tizzer.keepcharge.bean.StoreBean;
 import com.tizzer.keepcharge.constant.ConstantsValue;
-import com.tizzer.keepcharge.db.OrmLiteHelper;
+import com.tizzer.keepcharge.database.OrmLiteHelper;
 import com.tizzer.keepcharge.util.ToastUtil;
 
 import butterknife.BindView;
@@ -28,6 +29,8 @@ public class SpecBillActivity extends AppCompatActivity {
     TextView mTimeView;
     @BindView(R.id.et_money)
     EditText mMoneyEdit;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     private BillBean billBean;
     private StoreBean storeBean;
@@ -42,20 +45,24 @@ public class SpecBillActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         billBean = (BillBean) getIntent().getSerializableExtra(ConstantsValue.BILL_BEAN_TAG);
         storeBean = (StoreBean) getIntent().getSerializableExtra(ConstantsValue.STORE_BEAN_TAG);
-        mMoneyView.setText((billBean.getType() ? "+" : "-") + billBean.getMoney());
+        mMoneyView.setText(String.format("%s%s", billBean.getType() ? "+" : "-", billBean.getMoney()));
         mNoteView.setText(billBean.getNote());
         mTimeView.setText(billBean.getTime());
     }
 
-    @OnClick({R.id.iv_back, R.id.iv_submit, R.id.btn_update})
+    @OnClick({R.id.iv_submit, R.id.btn_update})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.iv_back:
-                overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-                finish();
-                break;
             case R.id.iv_submit:
                 String money = mMoneyEdit.getText().toString().trim();
                 if (money.equals("")) {
@@ -100,7 +107,7 @@ public class SpecBillActivity extends AppCompatActivity {
 
     private void deliverData() {
         ToastUtil.simpleToast(getApplicationContext(), getString(R.string.update_ok));
-        mMoneyView.setText((billBean.getType() ? "+" : "-") + billBean.getMoney());
+        mMoneyView.setText(String.format("%s%s", billBean.getType() ? "+" : "-", billBean.getMoney()));
         if (intent == null) {
             intent = new Intent();
         }

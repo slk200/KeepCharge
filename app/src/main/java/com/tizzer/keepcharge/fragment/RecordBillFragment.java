@@ -19,7 +19,7 @@ import android.widget.TimePicker;
 import com.tizzer.keepcharge.R;
 import com.tizzer.keepcharge.callback.OnBillRecordListener;
 import com.tizzer.keepcharge.constant.ConstantsValue;
-import com.tizzer.keepcharge.db.OrmLiteHelper;
+import com.tizzer.keepcharge.database.OrmLiteHelper;
 import com.tizzer.keepcharge.entity.Bill;
 import com.tizzer.keepcharge.util.ToastUtil;
 
@@ -28,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 public class RecordBillFragment extends DialogFragment
         implements DialogInterface.OnClickListener, View.OnClickListener {
@@ -116,7 +117,7 @@ public class RecordBillFragment extends DialogFragment
                     return;
                 }
                 String note = mNote.getText().toString().trim();
-                int sid = getArguments().getInt(ConstantsValue.STORE_BEAN_TAG);
+                int sid = Objects.requireNonNull(getArguments()).getInt(ConstantsValue.STORE_BEAN_TAG);
                 Bill bill = new Bill();
                 bill.setSid(sid);
                 bill.setType(type);
@@ -151,51 +152,65 @@ public class RecordBillFragment extends DialogFragment
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.et_date:
-                Calendar calendar1 = Calendar.getInstance();
-                if (datePickerDialog == null) {
-                    datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                            String date = year + "-";
-                            if (month + 1 < 10) {
-                                date += "0" + (month + 1) + "-";
-                            } else {
-                                date += (month + 1) + "-";
-                            }
-                            if (dayOfMonth < 10) {
-                                date += "0" + dayOfMonth;
-                            } else {
-                                date += dayOfMonth;
-                            }
-                            mDate.setText(date);
-                        }
-                    }, calendar1.get(Calendar.YEAR), calendar1.get(Calendar.MONTH), calendar1.get(Calendar.DAY_OF_MONTH));
-                }
-                datePickerDialog.show();
+                chooseDate();
                 break;
             case R.id.et_time:
-                Calendar calendar2 = Calendar.getInstance();
-                if (timePickerDialog == null) {
-                    timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
-                        @Override
-                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                            String time = "";
-                            if (hourOfDay < 10) {
-                                time += "0" + hourOfDay + ":";
-                            } else {
-                                time += hourOfDay + ":";
-                            }
-                            if (minute < 10) {
-                                time += "0" + minute + ":";
-                            } else {
-                                time += minute + ":";
-                            }
-                            mTime.setText(time + "00");
-                        }
-                    }, calendar2.get(Calendar.HOUR_OF_DAY), calendar2.get(Calendar.MINUTE), IS_24_HOUR_VIEW);
-                }
-                timePickerDialog.show();
+                chooseTime();
                 break;
         }
+    }
+
+    /**
+     * 选择时间
+     */
+    private void chooseTime() {
+        Calendar calendar2 = Calendar.getInstance();
+        if (timePickerDialog == null) {
+            timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    String time = "";
+                    if (hourOfDay < 10) {
+                        time += "0" + hourOfDay + ":";
+                    } else {
+                        time += hourOfDay + ":";
+                    }
+                    if (minute < 10) {
+                        time += "0" + minute + ":";
+                    } else {
+                        time += minute + ":";
+                    }
+                    mTime.setText(String.format("%s00", time));
+                }
+            }, calendar2.get(Calendar.HOUR_OF_DAY), calendar2.get(Calendar.MINUTE), IS_24_HOUR_VIEW);
+        }
+        timePickerDialog.show();
+    }
+
+    /**
+     * 选择日期
+     */
+    private void chooseDate() {
+        Calendar calendar1 = Calendar.getInstance();
+        if (datePickerDialog == null) {
+            datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    String date = year + "-";
+                    if (month + 1 < 10) {
+                        date += "0" + (month + 1) + "-";
+                    } else {
+                        date += (month + 1) + "-";
+                    }
+                    if (dayOfMonth < 10) {
+                        date += "0" + dayOfMonth;
+                    } else {
+                        date += dayOfMonth;
+                    }
+                    mDate.setText(date);
+                }
+            }, calendar1.get(Calendar.YEAR), calendar1.get(Calendar.MONTH), calendar1.get(Calendar.DAY_OF_MONTH));
+        }
+        datePickerDialog.show();
     }
 }

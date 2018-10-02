@@ -1,5 +1,6 @@
 package com.tizzer.keepcharge.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.tizzer.keepcharge.R;
 import com.tizzer.keepcharge.bean.StoreBean;
+import com.tizzer.keepcharge.callback.OnCardClickedListener;
 
 import java.util.List;
 
@@ -24,22 +26,22 @@ public class StoreAdapter extends RecyclerView.Adapter {
         this.listener = listener;
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         switch (viewType) {
-            case 1:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.store_item, parent, false);
-                return new StoreViewHolder(view);
             case 0:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.store_add, parent, false);
                 return new AddViewHolder(view);
+            default:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.store_item, parent, false);
+                return new StoreViewHolder(view);
         }
-        return null;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == 1) {
             final StoreBean storeBean = storeBeans.get(position);
             StoreViewHolder storeViewHolder = (StoreViewHolder) holder;
@@ -73,12 +75,6 @@ public class StoreAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         return storeBeans.get(position).getType();
-    }
-
-    public interface OnCardClickedListener {
-        void onStoreClick(StoreBean storeBean, int position);
-
-        void onAddClick();
     }
 
     class StoreViewHolder extends RecyclerView.ViewHolder {

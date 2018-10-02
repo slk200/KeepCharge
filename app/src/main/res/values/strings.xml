@@ -35,12 +35,12 @@
     <string name="please_input_money_tip">请输入金额哦亲！</string>
     <string name="save_error">保存失败</string>
     <string name="save_ok">保存成功</string>
-    <string name="bills_spec">账单详情</string>
+    <string name="bills_record">账单记录</string>
     <string name="bill_note">账单备注：</string>
     <string name="create_time">创建时间：</string>
     <string name="update_money">修改金额：</string>
     <string name="one_key_update_bill_type">一键修改账单类型</string>
-    <string name="bills_check">账单查看</string>
+    <string name="bills_spec">账单详情</string>
     <string name="money_can_bot_be_null">金额不能为空哦亲！</string>
     <string name="update_error">修改失败！</string>
     <string name="update_ok">修改成功！</string>
@@ -62,4 +62,7 @@
     <string name="auth_info_error">您的用户信息已失效或已删除！</string>
     <string name="logo_in">入</string>
     <string name="logo_out">出</string>
+    <string name="search">搜索</string>
+    <string name="search_bill">搜账单</string>
+    <string name="please_input_bill_note">请输入账单备注关键字</string>
 </resources>

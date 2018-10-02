@@ -1,4 +1,4 @@
-package com.tizzer.keepcharge.db;
+package com.tizzer.keepcharge.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -81,7 +81,7 @@ public class OrmLiteHelper extends OrmLiteSqliteOpenHelper {
                 return 0;
             } else {
                 int id = storeDao.create(new Store(name));
-                saveFact(id, 0, 0);
+                saveFact(id);
                 return id;
             }
         } catch (SQLException e) {
@@ -94,12 +94,10 @@ public class OrmLiteHelper extends OrmLiteSqliteOpenHelper {
      * 插入新店铺的收营概况
      *
      * @param sid
-     * @param income
-     * @param payment
      */
-    public void saveFact(int sid, double income, double payment) {
+    private void saveFact(int sid) {
         try {
-            factDao.create(new Fact(sid, income, payment));
+            factDao.create(new Fact(sid, (double) 0, (double) 0));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -319,6 +317,36 @@ public class OrmLiteHelper extends OrmLiteSqliteOpenHelper {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 获取匹配的账单
+     *
+     * @param sid
+     * @param keyword
+     * @param rangeStart
+     * @param rangeEnd
+     * @return
+     */
+    public List<BillBean> getMatchedBills(int sid, String keyword, int rangeStart, int rangeEnd) {
+        List<BillBean> billBeans = new ArrayList<>();
+        try {
+            GenericRawResults<String[]> strings = billDao.queryRaw("select id,money,note,date,type from tb_bill where sid=? and note like '%" + keyword + "%' limit ?,?",
+                    String.valueOf(sid), String.valueOf(rangeStart), String.valueOf(rangeEnd));
+            List<String[]> results = strings.getResults();
+            for (String[] element : results) {
+                BillBean billBean = new BillBean();
+                billBean.setId(Integer.parseInt(element[0]));
+                billBean.setMoney(Double.parseDouble(element[1]));
+                billBean.setNote(element[2]);
+                billBean.setTime(element[3]);
+                billBean.setType(element[4].equals("1"));
+                billBeans.add(billBean);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return billBeans;
     }
 
 }

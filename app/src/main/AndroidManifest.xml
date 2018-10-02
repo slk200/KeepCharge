@@ -24,7 +24,7 @@
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.SpecFinanceActivity" />
         <activity android:name=".activity.SpecBillActivity" />
-        <activity android:name=".activity.SearchActivity" />
+        <activity android:name=".activity.FilterActivity" />
         <activity android:name=".activity.OutputActivity" />
     </application>
 

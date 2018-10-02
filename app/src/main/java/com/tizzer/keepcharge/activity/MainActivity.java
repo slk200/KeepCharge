@@ -29,9 +29,8 @@ public class MainActivity extends AppCompatActivity implements OnStoreAddedListe
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    FinanceFragment mFinanceFragment;
-    PersonalFragment mPersonalFragment;
-    FragmentAdapter mFragmentAdapter;
+    private FinanceFragment mFinanceFragment;
+    private PersonalFragment mPersonalFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements OnStoreAddedListe
         setSupportActionBar(toolbar);
         mFinanceFragment = new FinanceFragment();
         mPersonalFragment = new PersonalFragment();
-        mFragmentAdapter = new FragmentAdapter(this.getSupportFragmentManager(), new Fragment[]{mFinanceFragment, mPersonalFragment});
+        FragmentAdapter mFragmentAdapter = new FragmentAdapter(this.getSupportFragmentManager(), new Fragment[]{mFinanceFragment, mPersonalFragment});
         mVPContainer.setAdapter(mFragmentAdapter);
         mBottomBar.setViewPager(mVPContainer);
     }

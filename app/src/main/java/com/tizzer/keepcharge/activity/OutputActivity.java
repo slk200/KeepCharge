@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,7 +17,7 @@ import android.widget.Spinner;
 
 import com.tizzer.keepcharge.R;
 import com.tizzer.keepcharge.adapter.StoreSpinnerAdapter;
-import com.tizzer.keepcharge.db.OrmLiteHelper;
+import com.tizzer.keepcharge.database.OrmLiteHelper;
 import com.tizzer.keepcharge.util.ExcelUtil;
 import com.tizzer.keepcharge.util.FileUtil;
 import com.tizzer.keepcharge.util.ToastUtil;
@@ -38,12 +39,15 @@ public class OutputActivity extends AppCompatActivity implements AdapterView.OnI
     private static final int REQUEST_CODE = 0;
     private static final int startYear = 2018;
     private static String[] title = {"日期", "金额￥", "备注"};
+
     @BindView(R.id.spinner_store)
     Spinner spinnerStore;
     @BindView(R.id.spinner_year)
     Spinner spinnerYear;
     @BindView(R.id.spinner_month)
     Spinner spinnerMonth;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     private int sid = -1;
     private int year = -1;
@@ -83,6 +87,14 @@ public class OutputActivity extends AppCompatActivity implements AdapterView.OnI
     }
 
     private void initView() {
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         spinnerStore.setAdapter(new StoreSpinnerAdapter(getApplicationContext(),
                 android.R.layout.simple_list_item_1, OrmLiteHelper.getHelper(getApplicationContext()).getAllStoreEntity()));
         List<String> years = new ArrayList<>();
@@ -98,12 +110,9 @@ public class OutputActivity extends AppCompatActivity implements AdapterView.OnI
         spinnerMonth.setOnItemSelectedListener(this);
     }
 
-    @OnClick({R.id.iv_back, R.id.btn_output})
+    @OnClick(R.id.btn_output)
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.iv_back:
-                finish();
-                break;
             case R.id.btn_output:
                 writeDataToStorage();
                 break;
@@ -135,7 +144,7 @@ public class OutputActivity extends AppCompatActivity implements AdapterView.OnI
 
     private void writeDataToStorage() {
         if (!Environment.getExternalStorageState().equals(
-                android.os.Environment.MEDIA_MOUNTED)) {
+                Environment.MEDIA_MOUNTED)) {
             ToastUtil.simpleToast(getApplicationContext(), R.string.no_sd_card);
             return;
         }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.tizzer.keepcharge.entity.Store;
 
 import java.util.List;
+import java.util.Objects;
 
 public class StoreSpinnerAdapter extends ArrayAdapter<Store> {
 
@@ -52,7 +53,7 @@ public class StoreSpinnerAdapter extends ArrayAdapter<Store> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.textView.setText(store.getName());
+        viewHolder.textView.setText(Objects.requireNonNull(store).getName());
         return convertView;
     }
 
