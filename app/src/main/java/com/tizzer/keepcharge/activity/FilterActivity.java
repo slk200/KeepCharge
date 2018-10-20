@@ -28,7 +28,9 @@ import butterknife.OnClick;
 
 public class FilterActivity extends AppCompatActivity implements OnBillClickedListener {
     private static final String TAG = "FilterActivity";
+    //加载数据的跨度
     private static final int STEP = 50;
+    //活动请求码
     private static final int REQUEST_CODE = 1;
 
     @BindView(R.id.et_keyword)
@@ -36,13 +38,21 @@ public class FilterActivity extends AppCompatActivity implements OnBillClickedLi
     @BindView(R.id.rv_searched_bills)
     RecyclerView mSearchedBills;
 
+    //账单列表数据集
     private List<BillBean> billBeans;
-    private boolean canScroll = false;
+    //是否还有可加载数据
+    private boolean canScroll = true;
+    //加载数据的初始索引
     private int rangeStart = 0;
+    //加载数据的结束索引
     private int rangeEnd = STEP;
+    //当前店铺的原始数据
     private StoreBean storeBean;
+    //选中的账单在列表中的位置
     private int selectedPosition;
+    //筛选关键字
     private String keyword;
+    private BillAdapter mBillAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +62,17 @@ public class FilterActivity extends AppCompatActivity implements OnBillClickedLi
         initView();
     }
 
+    /**
+     * 初始化控件
+     */
     private void initView() {
         storeBean = (StoreBean) getIntent().getSerializableExtra(ConstantsValue.STORE_BEAN_TAG);
 
         billBeans = new ArrayList<>();
-        BillAdapter billAdapter = new BillAdapter(billBeans);
-        billAdapter.setOnBillClickedListener(this);
+        mBillAdapter = new BillAdapter(billBeans);
+        mBillAdapter.setOnBillClickedListener(this);
         mSearchedBills.setLayoutManager(new LinearLayoutManager(this));
-        mSearchedBills.setAdapter(billAdapter);
+        mSearchedBills.setAdapter(mBillAdapter);
         mSearchedBills.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -70,7 +83,7 @@ public class FilterActivity extends AppCompatActivity implements OnBillClickedLi
                     List<BillBean> bills = OrmLiteHelper.getHelper(getApplicationContext()).getMatchedBills(storeBean.getId(), keyword, rangeStart, rangeEnd);
                     if (bills != null && !bills.isEmpty()) {
                         billBeans.addAll(bills);
-                        Objects.requireNonNull(mSearchedBills.getAdapter()).notifyItemRangeInserted(rangeStart, rangeEnd);
+                        mBillAdapter.notifyItemRangeInserted(rangeStart, rangeEnd);
                         if (bills.size() < STEP) {
                             canScroll = false;
                         }
@@ -108,16 +121,16 @@ public class FilterActivity extends AppCompatActivity implements OnBillClickedLi
         List<BillBean> matchedBills = OrmLiteHelper.getHelper(this).getMatchedBills(storeBean.getId(), keyword, rangeStart, rangeEnd);
         billBeans.clear();
         billBeans.addAll(matchedBills);
-        Objects.requireNonNull(mSearchedBills.getAdapter()).notifyDataSetChanged();
+        mBillAdapter.notifyDataSetChanged();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                BillBean billBean = (BillBean) Objects.requireNonNull(data).getSerializableExtra(ConstantsValue.BILL_BEAN_TAG);
+                BillBean billBean = (BillBean) data.getSerializableExtra(ConstantsValue.BILL_BEAN_TAG);
                 billBeans.set(selectedPosition, billBean);
-                Objects.requireNonNull(mSearchedBills.getAdapter()).notifyItemChanged(selectedPosition);
+                mBillAdapter.notifyItemChanged(selectedPosition);
                 data.putExtra(ConstantsValue.STORE_BEAN_TAG, storeBean);
                 setResult(RESULT_OK);
             }
