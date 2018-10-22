@@ -1,5 +1,7 @@
 package com.tizzer.keepcharge.bean;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -95,6 +97,7 @@ public class StoreBean implements Serializable {
         return Objects.hash(id, name, retain, income, payment, type);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "StoreBean{" +

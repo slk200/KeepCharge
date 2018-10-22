@@ -7,14 +7,13 @@
     <string name="account_null_tip">账号不能为空</string>
     <string name="lock_null_tip">密码不能为空</string>
     <string name="account_lock_error">账号或密码错误</string>
-    <string name="finance">资金</string>
-    <string name="personal">我的</string>
+    <string name="store">店铺</string>
+    <string name="statistics">统计</string>
     <string name="txby">桐乡佰忆</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_store">添加店铺</string>
     <string name="yesterday">昨日：</string>
     <string name="income">收入：</string>
-    <string name="_0_00">0.00</string>
     <string name="payment">支出：</string>
     <string name="default_store">1号店</string>
     <string name="store_name">店铺名</string>
@@ -41,7 +40,7 @@
     <string name="update_money">修改金额：</string>
     <string name="one_key_update_bill_type">一键修改账单类型</string>
     <string name="bills_spec">账单详情</string>
-    <string name="money_can_bot_be_null">金额不能为空哦亲！</string>
+    <string name="money_can_not_be_null">金额不能为空哦亲！</string>
     <string name="update_error">修改失败！</string>
     <string name="update_ok">修改成功！</string>
     <string name="output">导出</string>
@@ -59,10 +58,17 @@
     <string name="please_input_date_tip">请选择日期哦亲！</string>
     <string name="please_choose_time_tip">请选择时间哦亲！</string>
     <string name="retain">净利润：</string>
-    <string name="auth_info_error">您的用户信息已失效或已删除！</string>
+    <string name="auth_info_error">您的用户信息已失效！</string>
     <string name="logo_in">入</string>
     <string name="logo_out">出</string>
     <string name="search">搜索</string>
-    <string name="search_bill">搜账单</string>
     <string name="please_input_bill_note">请输入账单备注关键字</string>
+    <string name="pull_for_more">上拉加载更多</string>
+    <string name="loading">正在加载</string>
+    <string name="total_assets">总资产</string>
+    <string name="finance">财富</string>
+    <string name="total_income">总收入</string>
+    <string name="total_payment">总支出</string>
+    <string name="_0_00">0.00</string>
+    <string name="no_record">该月没有记录</string>
 </resources>

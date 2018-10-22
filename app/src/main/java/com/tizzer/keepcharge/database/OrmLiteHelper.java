@@ -7,6 +7,7 @@ import android.util.Log;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.GenericRawResults;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.tizzer.keepcharge.bean.BillBean;
@@ -120,7 +121,30 @@ public class OrmLiteHelper extends OrmLiteSqliteOpenHelper {
     }
 
     /**
-     * 获取所有店铺昨日收支概况
+     * 销毁店铺
+     *
+     * @param sid
+     */
+    public void destroyStore(int sid) {
+        try {
+            DeleteBuilder<Store, Integer> storeDeleteBuilder = storeDao.deleteBuilder();
+            storeDeleteBuilder.where().eq("id", sid);
+            storeDeleteBuilder.delete();
+
+            DeleteBuilder<Fact, Integer> factDeleteBuilder = factDao.deleteBuilder();
+            factDeleteBuilder.where().eq("id", sid);
+            factDeleteBuilder.delete();
+
+            DeleteBuilder<Bill, Integer> billDeleteBuilder = billDao.deleteBuilder();
+            billDeleteBuilder.where().eq("sid", sid);
+            billDeleteBuilder.delete();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取所有店铺收支概况
      *
      * @return
      */
@@ -148,14 +172,14 @@ public class OrmLiteHelper extends OrmLiteSqliteOpenHelper {
      *
      * @param sid
      * @param rangeStart
-     * @param rangeEnd
+     * @param step
      * @return
      */
-    public List<BillBean> getBills(int sid, int rangeStart, int rangeEnd) {
+    public List<BillBean> getBills(int sid, int rangeStart, int step) {
         List<BillBean> billBeans = new ArrayList<>();
         try {
             GenericRawResults<String[]> strings = billDao.queryRaw("select id,money,note,date,type from tb_bill where sid=? order by date desc limit ?,?",
-                    String.valueOf(sid), String.valueOf(rangeStart), String.valueOf(rangeEnd));
+                    String.valueOf(sid), String.valueOf(rangeStart), String.valueOf(step));
             List<String[]> results = strings.getResults();
             for (String[] element : results) {
                 BillBean billBean = new BillBean();
@@ -347,6 +371,63 @@ public class OrmLiteHelper extends OrmLiteSqliteOpenHelper {
             e.printStackTrace();
         }
         return billBeans;
+    }
+
+    /**
+     * 获取总资产
+     *
+     * @return
+     */
+    public double getTotalAssets() {
+        double assets = 0;
+        try {
+            GenericRawResults<String[]> strings = factDao.queryRaw("select sum(income-payment) from tb_fact");
+            String s = strings.getFirstResult()[0];
+            if (s != null) {
+                assets = Double.parseDouble(s);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return assets;
+    }
+
+    /**
+     * 获取总收入
+     *
+     * @return
+     */
+    public double getTotalIncome() {
+        double income = 0;
+        try {
+            GenericRawResults<String[]> strings = billDao.queryRaw("select sum(money) from tb_bill where type=1");
+            String s = strings.getFirstResult()[0];
+            if (s != null) {
+                income = Double.parseDouble(s);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return income;
+    }
+
+    /**
+     * 获取总支出
+     *
+     * @return
+     */
+    public double getTotalPayment() {
+        double payment = 0;
+        try {
+            GenericRawResults<String[]> strings = billDao.queryRaw("select sum(money) from tb_bill where type=0");
+            String s = strings.getFirstResult()[0];
+            if (s != null) {
+                payment = Double.parseDouble(s);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return payment;
     }
 
 }

@@ -8,4 +8,15 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
+    <style name="ActivityTheme" parent="AppTheme">
+        <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
+    </style>
+
+    <style name="ActivityAnimation">
+        <item name="android:activityOpenEnterAnimation">@anim/right_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/left_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/left_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/right_out</item>
+    </style>
+
 </resources>

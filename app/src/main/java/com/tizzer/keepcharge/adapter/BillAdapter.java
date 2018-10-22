@@ -14,6 +14,7 @@ import com.tizzer.keepcharge.bean.BillBean;
 import com.tizzer.keepcharge.callback.OnBillClickedListener;
 
 import java.util.List;
+import java.util.Locale;
 
 public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder> {
     private Context context;
@@ -38,23 +39,23 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BillViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BillViewHolder billViewHolder, int position) {
+        final int index = position;
         final BillBean billBean = billBeans.get(position);
         if (billBean.getType()) {
-            holder.logoView.setBackground(context.getResources().getDrawable(R.drawable.income_paint));
-            holder.logoView.setText(context.getText(R.string.logo_in));
-            holder.moneyView.setText(String.format("+%s", billBean.getMoney()));
-            holder.moneyView.setTextColor(context.getResources().getColor(R.color.colorHoloRedLight));
+            billViewHolder.logoView.setBackground(context.getResources().getDrawable(R.drawable.income_paint));
+            billViewHolder.logoView.setText(context.getText(R.string.logo_in));
+            billViewHolder.moneyView.setText(String.format(Locale.CHINA, "+%.2f", billBean.getMoney()));
+            billViewHolder.moneyView.setTextColor(context.getResources().getColor(R.color.colorHoloRedLight));
         } else {
-            holder.logoView.setBackground(context.getResources().getDrawable(R.drawable.payment_paint));
-            holder.logoView.setText(context.getText(R.string.logo_out));
-            holder.moneyView.setText(String.format("-%s", billBean.getMoney()));
-            holder.moneyView.setTextColor(context.getResources().getColor(R.color.colorBlack));
+            billViewHolder.logoView.setBackground(context.getResources().getDrawable(R.drawable.payment_paint));
+            billViewHolder.logoView.setText(context.getText(R.string.logo_out));
+            billViewHolder.moneyView.setText(String.format(Locale.CHINA, "-%.2f", billBean.getMoney()));
+            billViewHolder.moneyView.setTextColor(context.getResources().getColor(R.color.colorBlack));
         }
-        holder.noteView.setText(billBean.getNote());
-        holder.timeView.setText(billBean.getTime());
-        final int index = position;
-        holder.billView.setOnClickListener(new View.OnClickListener() {
+        billViewHolder.noteView.setText(billBean.getNote());
+        billViewHolder.timeView.setText(billBean.getTime());
+        billViewHolder.billView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.onBillClicked(billBean, index);
@@ -84,4 +85,5 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.BillViewHolder
             noteView = itemView.findViewById(R.id.tv_note);
         }
     }
+
 }

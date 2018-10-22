@@ -13,6 +13,7 @@ import com.tizzer.keepcharge.bean.StoreBean;
 import com.tizzer.keepcharge.callback.OnCardClickedListener;
 
 import java.util.List;
+import java.util.Locale;
 
 public class StoreAdapter extends RecyclerView.Adapter {
     private List<StoreBean> storeBeans;
@@ -43,17 +44,24 @@ public class StoreAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == 1) {
+            final int index = position;
             final StoreBean storeBean = storeBeans.get(position);
             StoreViewHolder storeViewHolder = (StoreViewHolder) holder;
             storeViewHolder.mStoreName.setText(storeBean.getName());
-            storeViewHolder.mRetain.setText(String.valueOf(storeBean.getRetain()));
-            storeViewHolder.mIncome.setText(String.valueOf(storeBean.getIncome()));
-            storeViewHolder.mPayment.setText(String.valueOf(storeBean.getPayment()));
-            final int index = position;
+            storeViewHolder.mRetain.setText(String.format(Locale.CHINA, "%.2f", storeBean.getRetain()));
+            storeViewHolder.mIncome.setText(String.format(Locale.CHINA, "%.2f", storeBean.getIncome()));
+            storeViewHolder.mPayment.setText(String.format(Locale.CHINA, "%.2f", storeBean.getPayment()));
             storeViewHolder.mStore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     listener.onStoreClick(storeBean, index);
+                }
+            });
+            storeViewHolder.mStore.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    listener.onStoreLongClick(storeBean, index);
+                    return true;
                 }
             });
         } else {

@@ -22,10 +22,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.SpecFinanceActivity" />
-        <activity android:name=".activity.SpecBillActivity" />
+        <activity android:theme="@style/ActivityTheme" android:name=".activity.FinanceActivity" />
+        <activity android:theme="@style/ActivityTheme" android:name=".activity.BillActivity" />
         <activity android:name=".activity.FilterActivity" />
-        <activity android:name=".activity.OutputActivity" />
     </application>
 
 </manifest>

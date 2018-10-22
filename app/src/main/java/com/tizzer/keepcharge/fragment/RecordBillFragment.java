@@ -1,5 +1,6 @@
 package com.tizzer.keepcharge.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -8,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +35,7 @@ import java.util.Objects;
 public class RecordBillFragment extends DialogFragment
         implements DialogInterface.OnClickListener, View.OnClickListener {
 
-    public static final boolean IS_24_HOUR_VIEW = true;
+    private static final boolean IS_24_HOUR = true;
     private EditText mMoney;
     private EditText mNote;
     private EditText mDate;
@@ -42,6 +44,7 @@ public class RecordBillFragment extends DialogFragment
     private OnBillRecordListener listener;
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
+    private Context context;
 
     public static RecordBillFragment getInstance(int sid) {
         RecordBillFragment recordBillFragment = new RecordBillFragment();
@@ -51,16 +54,23 @@ public class RecordBillFragment extends DialogFragment
         return recordBillFragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        context = getActivity();
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_record_bill, null);
+        @SuppressLint("InflateParams")
+        View view = LayoutInflater.from(context).inflate(R.layout.fragment_record_bill, null);
         initView(view);
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.record_bill)
                 .setView(view)
                 .setPositiveButton(R.string.confirm, this)
-                .setNegativeButton(R.string.cancel, this);
+                .setNegativeButton(R.string.cancel, null);
         return builder.create();
     }
 
@@ -98,22 +108,20 @@ public class RecordBillFragment extends DialogFragment
     @Override
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
-            case AlertDialog.BUTTON_NEGATIVE:
-                break;
             case AlertDialog.BUTTON_POSITIVE:
                 String money = mMoney.getText().toString().trim();
                 if (money.equals("")) {
-                    ToastUtil.simpleToast(getActivity(), getString(R.string.please_input_money_tip));
+                    ToastUtil.simpleToast(context, getString(R.string.please_input_money_tip));
                     return;
                 }
                 String date = mDate.getText().toString();
                 if (date.equals("")) {
-                    ToastUtil.simpleToast(getActivity(), getString(R.string.please_input_date_tip));
+                    ToastUtil.simpleToast(context, getString(R.string.please_input_date_tip));
                     return;
                 }
                 String time = mTime.getText().toString();
                 if (time.equals("")) {
-                    ToastUtil.simpleToast(getActivity(), getString(R.string.please_choose_time_tip));
+                    ToastUtil.simpleToast(context, getString(R.string.please_choose_time_tip));
                     return;
                 }
                 String note = mNote.getText().toString().trim();
@@ -124,16 +132,16 @@ public class RecordBillFragment extends DialogFragment
                 bill.setMoney(Double.parseDouble(money));
                 bill.setNote(note);
                 bill.setDate(string2Date(date + " " + time));
-                int result = OrmLiteHelper.getHelper(getActivity()).recordBill(bill);
-                OrmLiteHelper.getHelper(getContext()).updateFactByRecord(sid,
+                int result = OrmLiteHelper.getHelper(context).recordBill(bill);
+                OrmLiteHelper.getHelper(context).updateFactByRecord(sid,
                         type, money);
                 if (result == 0) {
-                    ToastUtil.simpleToast(getActivity(), getString(R.string.save_error));
+                    ToastUtil.simpleToast(context, getString(R.string.save_error));
                 } else if (result == 1) {
                     listener.onBillRecord();
-                    ToastUtil.simpleToast(getActivity(), getString(R.string.save_ok));
+                    ToastUtil.simpleToast(context, getString(R.string.save_ok));
                 } else {
-                    ToastUtil.simpleToast(getActivity(), getString(R.string.app_error));
+                    ToastUtil.simpleToast(context, getString(R.string.app_error));
                 }
                 break;
         }
@@ -166,7 +174,7 @@ public class RecordBillFragment extends DialogFragment
     private void chooseTime() {
         Calendar calendar2 = Calendar.getInstance();
         if (timePickerDialog == null) {
-            timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+            timePickerDialog = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                     String time = "";
@@ -182,7 +190,7 @@ public class RecordBillFragment extends DialogFragment
                     }
                     mTime.setText(String.format("%s00", time));
                 }
-            }, calendar2.get(Calendar.HOUR_OF_DAY), calendar2.get(Calendar.MINUTE), IS_24_HOUR_VIEW);
+            }, calendar2.get(Calendar.HOUR_OF_DAY), calendar2.get(Calendar.MINUTE), IS_24_HOUR);
         }
         timePickerDialog.show();
     }
@@ -193,7 +201,7 @@ public class RecordBillFragment extends DialogFragment
     private void chooseDate() {
         Calendar calendar1 = Calendar.getInstance();
         if (datePickerDialog == null) {
-            datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+            datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                     String date = year + "-";

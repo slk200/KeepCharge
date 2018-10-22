@@ -15,9 +15,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="5dp"
-            app:tabIconNormal="@mipmap/ic_finance"
-            app:tabIconSelected="@mipmap/ic_finance_on"
-            app:tabText="@string/finance"
+            app:tabIconNormal="@mipmap/ic_store"
+            app:tabIconSelected="@mipmap/ic_store_on"
+            app:tabText="@string/store"
             app:tabTextSize="12sp"
             app:textColorSelected="@color/colorPrimary" />
 
@@ -26,9 +26,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="5dp"
-            app:tabIconNormal="@mipmap/ic_personal"
-            app:tabIconSelected="@mipmap/ic_personal_on"
-            app:tabText="@string/personal"
+            app:tabIconNormal="@mipmap/ic_statistics"
+            app:tabIconSelected="@mipmap/ic_statistics_on"
+            app:tabText="@string/statistics"
             app:tabTextSize="12sp"
             app:textColorSelected="@color/colorPrimary" />
 

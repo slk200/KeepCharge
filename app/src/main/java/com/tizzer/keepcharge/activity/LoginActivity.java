@@ -3,7 +3,6 @@ package com.tizzer.keepcharge.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -14,59 +13,65 @@ import com.tizzer.keepcharge.util.MD5Util;
 import com.tizzer.keepcharge.util.SharedPreferencesUtil;
 import com.tizzer.keepcharge.util.ToastUtil;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
-public class LoginActivity extends AppCompatActivity {
-    private static final String TAG = "LoginActivity";
+public class LoginActivity extends AppCompatActivity
+        implements View.OnClickListener {
+    //桐乡佰忆身份信息
     private static final String ACCOUNT = "txby";
     private static final String PASSWORD = "txby123";
 
-    @BindView(R.id.et_account)
-    EditText mAccountET;
-    @BindView(R.id.et_lock)
-    EditText mLockET;
-    @BindView(R.id.box_auto_login)
-    CheckBox mAutoLoginBox;
+    private EditText mAccountET;
+    private EditText mPasswordET;
+    private CheckBox mAutoLoginCB;
 
-    private boolean isAuto = false;
-    private boolean isAutoTemp = false;
+    //是否自动登录
+    private boolean autoLoginTag = false;
+    //记录是否自动登录
+    private boolean autoLoginTagTemp = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
-        isAutoTemp = SharedPreferencesUtil.getBoolean(this, ConstantsValue.AUTO_LOGIN);
-        isAuto = isAutoTemp;
-        if (isAutoTemp) {
+        initView();
+    }
+
+    /**
+     * 初始化
+     */
+    private void initView() {
+        autoLoginTagTemp = SharedPreferencesUtil.getBoolean(this, ConstantsValue.AUTO_LOGIN);
+        autoLoginTag = autoLoginTagTemp;
+        if (autoLoginTagTemp) {
             String account = SharedPreferencesUtil.getString(this, ConstantsValue.ACCOUNT);
             String md5Password = SharedPreferencesUtil.getString(this, ConstantsValue.PASSWORD);
-            Log.e(TAG, "onCreate: " + ACCOUNT + "~" + MD5Util.md5(PASSWORD));
-            Log.e(TAG, "onCreate: " + account + "~" + md5Password);
             if ((ACCOUNT + MD5Util.md5(PASSWORD)).equals(account + md5Password)) {
-                skip();
+                skipLogin();
             } else {
                 ToastUtil.simpleToast(this, R.string.auth_info_error);
             }
         }
+        mAccountET = findViewById(R.id.et_account);
+        mPasswordET = findViewById(R.id.et_password);
+        mAutoLoginCB = findViewById(R.id.box_auto_login);
+
+        findViewById(R.id.btn_login).setOnClickListener(this);
+        findViewById(R.id.box_auto_login).setOnClickListener(this);
     }
 
-    @OnClick({R.id.btn_login, R.id.box_auto_login})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.btn_login:
                 verify();
                 break;
             case R.id.box_auto_login:
-                isAuto = mAutoLoginBox.isChecked();
+                autoLoginTag = mAutoLoginCB.isChecked();
                 break;
         }
     }
 
     /**
-     * 账号密码校验
+     * 身份校验
      */
     private void verify() {
         String account = mAccountET.getText().toString();
@@ -75,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        String password = mLockET.getText().toString();
+        String password = mPasswordET.getText().toString();
         if (password.equals("")) {
             ToastUtil.simpleToast(this, R.string.lock_null_tip);
             return;
@@ -83,13 +88,16 @@ public class LoginActivity extends AppCompatActivity {
 
         if (account.equals(ACCOUNT) && password.equals(PASSWORD)) {
             setAuto(account, password);
-            skip();
+            skipLogin();
         } else {
             ToastUtil.simpleToast(this, R.string.account_lock_error);
         }
     }
 
-    private void skip() {
+    /**
+     * 跳过登录
+     */
+    private void skipLogin() {
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
@@ -98,19 +106,21 @@ public class LoginActivity extends AppCompatActivity {
      * 设置是否自动登录
      */
     private void setAuto(String account, String password) {
-        if (isAuto == isAutoTemp) {
+        if (autoLoginTag == autoLoginTagTemp) {
             return;
         }
-        if (isAuto) {
-            Log.e(TAG, "setAuto: do it true");
-            SharedPreferencesUtil.putString(this, ConstantsValue.ACCOUNT, account);
-            SharedPreferencesUtil.putString(this, ConstantsValue.PASSWORD, MD5Util.md5(password));
-            SharedPreferencesUtil.putBoolean(this, ConstantsValue.AUTO_LOGIN, true);
+        if (autoLoginTag) {
+            SharedPreferencesUtil.getInstance(this).edit()
+                    .putString(ConstantsValue.ACCOUNT, account)
+                    .putString(ConstantsValue.PASSWORD, MD5Util.md5(password))
+                    .putBoolean(ConstantsValue.AUTO_LOGIN, true)
+                    .apply();
         } else {
-            Log.e(TAG, "setAuto: do it false");
-            SharedPreferencesUtil.putString(this, ConstantsValue.ACCOUNT, null);
-            SharedPreferencesUtil.putString(this, ConstantsValue.PASSWORD, null);
-            SharedPreferencesUtil.putBoolean(this, ConstantsValue.AUTO_LOGIN, false);
+            SharedPreferencesUtil.getInstance(this).edit()
+                    .putString(ConstantsValue.ACCOUNT, null)
+                    .putString(ConstantsValue.PASSWORD, null)
+                    .putBoolean(ConstantsValue.AUTO_LOGIN, false)
+                    .apply();
         }
     }
 }
