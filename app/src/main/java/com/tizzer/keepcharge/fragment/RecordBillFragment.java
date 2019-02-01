@@ -17,7 +17,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TimePicker;
-
 import com.tizzer.keepcharge.R;
 import com.tizzer.keepcharge.callback.OnBillRecordListener;
 import com.tizzer.keepcharge.constant.ConstantsValue;

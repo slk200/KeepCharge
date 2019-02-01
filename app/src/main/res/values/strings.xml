@@ -53,6 +53,7 @@
     <string name="output_to_folder_document_successful">导出到手机存储文件夹Document成功</string>
     <string name="no_sd_card">手机没有插入存储卡哦亲！</string>
     <string name="date">日期：</string>
+    <string name="time">时间：</string>
     <string name="please_choose_date">请选择日期</string>
     <string name="please_choose_time">请选择时间</string>
     <string name="please_input_date_tip">请选择日期哦亲！</string>

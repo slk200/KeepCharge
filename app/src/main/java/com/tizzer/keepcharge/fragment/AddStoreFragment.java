@@ -12,7 +12,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-
 import com.tizzer.keepcharge.R;
 import com.tizzer.keepcharge.bean.StoreBean;
 import com.tizzer.keepcharge.callback.OnStoreAddedListener;

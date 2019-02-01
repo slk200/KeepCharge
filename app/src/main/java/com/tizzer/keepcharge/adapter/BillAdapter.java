@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.tizzer.keepcharge.R;
 import com.tizzer.keepcharge.bean.BillBean;
 import com.tizzer.keepcharge.callback.OnBillClickedListener;

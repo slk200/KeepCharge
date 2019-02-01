@@ -1,193 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/round_rectangle"
-            android:paddingStart="10dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="5dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/finance" />
-
-        </LinearLayout>
-
-        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingTop="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/total_assets"
-                android:textColor="@color/colorWhite" />
-
-            <TextView
-                android:id="@+id/tv_assets"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/_0_00"
-                android:textColor="@color/colorWhite"
-                android:textSize="20sp" />
-
-        </LinearLayout>
+            android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="10dp">
-
-            <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/round_rectangle"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp">
 
-                <TextView
+            <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/total_income"
-                    android:textColor="@color/colorWhite" />
+                    android:text="@string/finance"/>
 
-                <TextView
-                    android:id="@+id/tv_income"
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingTop="10dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/total_assets"
+                    android:textColor="@color/colorWhite"/>
+
+            <TextView
+                    android:id="@+id/tv_assets"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/_0_00"
                     android:textColor="@color/colorWhite"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="10dp">
+
+            <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total_income"
+                        android:textColor="@color/colorWhite"/>
+
+                <TextView
+                        android:id="@+id/tv_income"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/_0_00"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="20sp"/>
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/total_payment"
-                    android:textColor="@color/colorWhite" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total_payment"
+                        android:textColor="@color/colorWhite"/>
 
                 <TextView
-                    android:id="@+id/tv_payment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/_0_00"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="20sp" />
+                        android:id="@+id/tv_payment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/_0_00"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="20sp"/>
 
             </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/round_rectangle"
-            android:paddingStart="10dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="5dp">
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/output" />
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/round_rectangle"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/output"/>
 
         </LinearLayout>
 
         <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="50dp"
-            android:paddingTop="20dp"
-            android:paddingEnd="50dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="50dp"
+                android:paddingTop="20dp"
+                android:paddingEnd="50dp">
 
             <TableRow android:gravity="center_vertical">
 
                 <TextView
-                    android:text="@string/choose_store"
-                    android:textColor="@color/colorWhite" />
+                        android:text="@string/choose_store"
+                        android:textColor="@color/colorWhite"/>
 
                 <Spinner
-                    android:id="@+id/spinner_store"
-                    android:layout_width="0dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_weight="1" />
+                        android:id="@+id/spinner_store"
+                        android:layout_width="0dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"/>
             </TableRow>
 
             <TableRow
-                android:layout_marginTop="15dp"
-                android:gravity="center_vertical">
+                    android:layout_marginTop="15dp"
+                    android:gravity="center_vertical">
 
                 <TextView
-                    android:text="@string/choose_year"
-                    android:textColor="@color/colorWhite" />
+                        android:text="@string/choose_year"
+                        android:textColor="@color/colorWhite"/>
 
                 <Spinner
-                    android:id="@+id/spinner_year"
-                    android:layout_width="0dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_weight="1" />
+                        android:id="@+id/spinner_year"
+                        android:layout_width="0dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"/>
             </TableRow>
 
             <TableRow
-                android:layout_marginTop="15dp"
-                android:gravity="center_vertical">
+                    android:layout_marginTop="15dp"
+                    android:gravity="center_vertical">
 
                 <TextView
-                    android:text="@string/choose_month"
-                    android:textColor="@color/colorWhite" />
+                        android:text="@string/choose_month"
+                        android:textColor="@color/colorWhite"/>
 
                 <Spinner
-                    android:id="@+id/spinner_month"
-                    android:layout_width="0dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_weight="1" />
+                        android:id="@+id/spinner_month"
+                        android:layout_width="0dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"/>
             </TableRow>
 
         </TableLayout>
 
         <TextView
-            android:id="@+id/btn_output"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/round_border"
-            android:foreground="?android:selectableItemBackground"
-            android:paddingStart="10dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="5dp"
-            android:text="@string/output_bill"
-            android:textColor="@color/colorWhite" />
+                android:id="@+id/btn_output"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/round_border"
+                android:foreground="?android:selectableItemBackground"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:text="@string/output_bill"
+                android:textColor="@color/colorWhite"/>
 
     </LinearLayout>
 

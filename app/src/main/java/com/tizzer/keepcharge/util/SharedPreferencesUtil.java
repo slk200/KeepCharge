@@ -2,7 +2,6 @@ package com.tizzer.keepcharge.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
 import com.tizzer.keepcharge.constant.ConstantsValue;
 
 public class SharedPreferencesUtil {

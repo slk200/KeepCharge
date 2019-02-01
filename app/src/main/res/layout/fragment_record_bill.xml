@@ -1,101 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="10dp"
-    android:stretchColumns="1,2">
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="vertical"
+             android:padding="10dp"
+             android:stretchColumns="1,2">
 
     <TableRow
-        android:layout_width="match_parent"
-        android:gravity="center_vertical">
+            android:layout_width="match_parent"
+            android:gravity="center_vertical">
 
-        <TextView android:text="@string/type" />
+        <TextView android:text="@string/type"/>
 
         <RadioGroup
-            android:id="@+id/rg_type"
-            android:orientation="horizontal">
+                android:id="@+id/rg_type"
+                android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/rb_in"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:checked="true"
-                android:text="@string/in" />
+                    android:id="@+id/rb_in"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="@string/in"/>
 
             <RadioButton
-                android:id="@+id/rb_out"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/out" />
+                    android:id="@+id/rb_out"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/out"/>
 
         </RadioGroup>
 
     </TableRow>
 
     <TableRow
-        android:layout_width="match_parent"
-        android:gravity="center_vertical">
+            android:layout_width="match_parent"
+            android:gravity="center_vertical">
 
-        <TextView android:text="@string/money" />
+        <TextView android:text="@string/money"/>
 
         <EditText
-            android:id="@+id/et_money"
-            android:inputType="numberDecimal" />
+                android:id="@+id/et_money"
+                android:inputType="numberDecimal"/>
 
     </TableRow>
 
     <TableRow
-        android:layout_width="match_parent"
-        android:gravity="center_vertical">
+            android:layout_width="match_parent"
+            android:gravity="center_vertical">
 
-        <TextView android:text="@string/note" />
+        <TextView android:text="@string/note"/>
 
         <EditText
-            android:id="@+id/et_note"
-            android:inputType="text" />
+                android:id="@+id/et_note"
+                android:inputType="text"/>
 
     </TableRow>
 
     <TableRow
-        android:layout_width="match_parent"
-        android:gravity="center_vertical">
+            android:layout_width="match_parent"
+            android:gravity="center_vertical">
 
-        <TextView android:text="@string/date" />
+        <TextView android:text="@string/date"/>
 
         <EditText
-            android:id="@+id/et_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:cursorVisible="false"
-            android:ems="10"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:hint="@string/please_choose_date"
-            android:inputType="date"
-            android:textSize="14sp" />
+                android:id="@+id/et_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:cursorVisible="false"
+                android:ems="10"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="@string/please_choose_date"
+                android:inputType="date"
+                android:textSize="14sp"/>
 
     </TableRow>
 
     <TableRow
-        android:layout_width="match_parent"
-        android:gravity="center_vertical">
+            android:layout_width="match_parent"
+            android:gravity="center_vertical">
 
-        <TextView android:text="@string/date" />
+        <TextView android:text="@string/time"/>
 
         <EditText
-            android:id="@+id/et_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:cursorVisible="false"
-            android:ems="10"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:hint="@string/please_choose_time"
-            android:inputType="time"
-            android:textSize="14sp" />
+                android:id="@+id/et_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:cursorVisible="false"
+                android:ems="10"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="@string/please_choose_time"
+                android:inputType="time"
+                android:textSize="14sp"/>
 
     </TableRow>
 

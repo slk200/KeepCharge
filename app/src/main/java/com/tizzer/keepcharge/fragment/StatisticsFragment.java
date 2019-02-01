@@ -19,7 +19,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.tizzer.keepcharge.R;
 import com.tizzer.keepcharge.adapter.StoreSpinnerAdapter;
 import com.tizzer.keepcharge.database.OrmLiteHelper;

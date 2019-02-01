@@ -11,7 +11,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
-
 import com.tizzer.keepcharge.R;
 import com.tizzer.keepcharge.adapter.BillAdapter;
 import com.tizzer.keepcharge.bean.BillBean;

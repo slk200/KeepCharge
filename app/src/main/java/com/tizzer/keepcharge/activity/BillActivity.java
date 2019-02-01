@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.tizzer.keepcharge.R;
 import com.tizzer.keepcharge.bean.BillBean;
 import com.tizzer.keepcharge.bean.StoreBean;

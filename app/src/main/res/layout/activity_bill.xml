@@ -1,123 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            app:contentInsetLeft="0dp"
-            app:contentInsetStart="0dp"
-            app:navigationIcon="@drawable/ic_back"
-            app:title="@string/bills_spec"
-            app:titleTextColor="@color/colorWhite" />
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                app:contentInsetLeft="0dp"
+                app:contentInsetStart="0dp"
+                app:navigationIcon="@drawable/ic_back"
+                app:title="@string/bills_spec"
+                app:titleTextColor="@color/colorWhite"/>
 
     </android.support.design.widget.AppBarLayout>
 
     <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp">
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
 
         <TableRow
-            android:layout_marginTop="10dp"
-            android:gravity="center">
+                android:layout_marginTop="10dp"
+                android:gravity="center">
 
             <TextView
-                android:id="@+id/tv_money"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="+26"
-                android:textColor="@color/colorBlack"
-                android:textSize="36sp" />
+                    android:id="@+id/tv_money"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="+26"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="36sp"/>
         </TableRow>
 
         <TableRow android:layout_marginTop="10dp">
 
             <TextView
-                android:text="@string/bill_note"
-                android:textSize="16sp" />
+                    android:text="@string/bill_note"
+                    android:textSize="16sp"/>
 
             <TextView
-                android:id="@+id/tv_note"
-                android:textSize="16sp" />
+                    android:id="@+id/tv_note"
+                    android:textSize="16sp"/>
         </TableRow>
 
         <TableRow
-            android:layout_width="match_parent"
-            android:layout_marginTop="10dp">
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp">
 
             <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"
-                android:background="@color/colorFill" />
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorFill"/>
         </TableRow>
 
         <TableRow android:layout_marginTop="10dp">
 
             <TextView
-                android:text="@string/create_time"
-                android:textSize="16sp" />
+                    android:text="@string/create_time"
+                    android:textSize="16sp"/>
 
             <TextView
-                android:id="@+id/tv_time"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textSize="16sp" />
+                    android:id="@+id/tv_time"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textSize="16sp"/>
         </TableRow>
 
         <TableRow
-            android:layout_width="match_parent"
-            android:layout_marginTop="10dp">
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp">
 
             <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"
-                android:background="@color/colorFill" />
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorFill"/>
         </TableRow>
 
         <TableRow android:layout_marginTop="10dp">
 
             <TextView
-                android:text="@string/update_money"
-                android:textSize="16sp" />
+                    android:text="@string/update_money"
+                    android:textSize="16sp"/>
 
             <EditText
-                android:id="@+id/et_money"
-                android:layout_width="0dp"
-                android:layout_weight="3"
-                android:inputType="numberDecimal" />
+                    android:id="@+id/et_money"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:inputType="numberDecimal"/>
 
             <ImageView
-                android:id="@+id/iv_submit"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_submit" />
+                    android:id="@+id/iv_submit"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_submit"/>
         </TableRow>
 
     </TableLayout>
 
     <Button
-        android:id="@+id/btn_update"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="@string/one_key_update_bill_type"
-        android:textColor="@color/colorWhite"
-        android:textSize="16sp" />
+            android:id="@+id/btn_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:text="@string/one_key_update_bill_type"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"/>
 
 </LinearLayout>

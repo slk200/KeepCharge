@@ -1,75 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ll_bill"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?attr/selectableItemBackground"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:paddingStart="15dp"
-    android:paddingEnd="15dp">
+              android:id="@+id/ll_bill"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:clickable="true"
+              android:focusable="true"
+              android:foreground="?attr/selectableItemBackground"
+              android:gravity="center_vertical"
+              android:orientation="horizontal"
+              android:paddingStart="15dp"
+              android:paddingEnd="15dp">
 
     <TextView
-        android:id="@+id/tv_logo"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="15dp"
-        android:background="@drawable/income_paint"
-        android:gravity="center"
-        android:text="@string/logo_out"
-        android:textColor="@color/colorWhite"
-        android:textSize="20sp" />
+            android:id="@+id/tv_logo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/income_paint"
+            android:gravity="center"
+            android:text="@string/logo_out"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"/>
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_note"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_weight="3"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:text="test"
-                android:textColor="@color/colorBlack"
-                android:textSize="18sp" />
+                    android:id="@+id/tv_note"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="3"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="test"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="18sp"/>
 
             <TextView
-                android:id="@+id/tv_money"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="end"
-                android:text="16666666"
-                android:textSize="20sp" />
+                    android:id="@+id/tv_money"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="end"
+                    android:text="16666666"
+                    android:textSize="20sp"/>
 
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="2018-09-23 12:05:22" />
+                android:id="@+id/tv_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="2018-09-23 12:05:22"/>
 
         <View
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_marginTop="15dp"
-            android:background="@color/colorFill" />
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/colorFill"/>
 
     </LinearLayout>
 

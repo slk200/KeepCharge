@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-
 import com.tizzer.keepcharge.R;
 import com.tizzer.keepcharge.adapter.BillAdapter;
 import com.tizzer.keepcharge.bean.BillBean;
@@ -29,8 +28,7 @@ import java.util.List;
 
 public class FinanceActivity extends AppCompatActivity
         implements OnBillClickedListener, OnBillRecordListener, View.OnClickListener {
-
-    public static final int LOAD = 0;
+    public static final int LOADING = 2;
     //请求码
     private static final int REQUEST_CODE = 0;
     private static final int REQUEST_CODE2 = 1;
@@ -91,7 +89,7 @@ public class FinanceActivity extends AppCompatActivity
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (canScroll && !mBillListView.canScrollVertically(1)) {
-                    loadHandler.sendEmptyMessage(LOAD);
+                    loadHandler.sendEmptyMessage(LOADING);
                 }
             }
         });
@@ -245,18 +243,19 @@ public class FinanceActivity extends AppCompatActivity
 
     static class LoadHandler extends Handler {
 
-        WeakReference<FinanceActivity> financeActivityWeakReference;
+        FinanceActivity financeActivityWeakReference;
 
         LoadHandler(FinanceActivity financeActivity) {
-            this.financeActivityWeakReference = new WeakReference<>(financeActivity);
+            financeActivityWeakReference = new WeakReference<>(financeActivity).get();
         }
 
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-                case LOAD:
-                    financeActivityWeakReference.get().loadData();
+                case LOADING:
+                    financeActivityWeakReference.loadData();
+                    break;
             }
         }
     }
